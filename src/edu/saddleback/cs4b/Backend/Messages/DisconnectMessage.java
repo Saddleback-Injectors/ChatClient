@@ -1,4 +1,7 @@
 package edu.saddleback.cs4b.Backend.Messages;
 
-public class DisconnectMessage {
+import java.io.Serializable;
+
+public class DisconnectMessage implements Serializable
+{
 }

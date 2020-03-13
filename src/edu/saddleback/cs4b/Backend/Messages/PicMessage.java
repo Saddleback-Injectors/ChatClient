@@ -1,5 +1,8 @@
 package edu.saddleback.cs4b.Backend.Messages;
 
-public class PicMessage
+import java.io.Serializable;
+
+public class PicMessage implements Serializable
 {
+
 }
