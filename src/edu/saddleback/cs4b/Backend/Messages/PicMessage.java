@@ -1,21 +1,19 @@
 package edu.saddleback.cs4b.Backend.Messages;
 
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 
 public class PicMessage extends BaseMessage
 {
-    private BufferedImage img;
+    byte[] img;
 
-    public PicMessage(BufferedImage img)
+    public PicMessage(String sender, byte[] img)
     {
-        super("Pic-Msg");
+        super(sender, "Pic-Msg");
         this.img = img;
     }
 
-    @Override
-    public void setSender(String sender)
+    public byte[] getImg()
     {
-        this.sender = sender;
+        return img;
     }
 }

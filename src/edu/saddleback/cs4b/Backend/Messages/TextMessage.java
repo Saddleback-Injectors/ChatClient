@@ -7,8 +7,8 @@ public class TextMessage extends BaseMessage
     private String channel;
     private String message;
 
-    public TextMessage( String channel, String message) {
-        super("txt-Msg");
+    public TextMessage( String sender, String channel, String message) {
+        super(sender,"txt-Msg");
         this.channel = channel;
         this.message = message;
     }
@@ -23,13 +23,6 @@ public class TextMessage extends BaseMessage
         return message;
     }
 
-
-
-    @Override
-    public void setSender(String sender)
-    {
-        this.sender = sender;
-    }
 
     @Override
     public String toString()

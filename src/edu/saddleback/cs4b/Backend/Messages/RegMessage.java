@@ -8,17 +8,11 @@ public class RegMessage extends BaseMessage
     private String userName;
     private List<String> channels;
 
-    public RegMessage(String userName, List<String> channels)
+    public RegMessage(String sender, String userName, List<String> channels)
     {
-        super("Reg-Msg");
+        super(sender, "Reg-Msg");
         this.userName = userName;
         this.channels = channels;
-    }
-
-    @Override
-    public void setSender(String sender)
-    {
-        this.sender = sender;
     }
 
     public String getUserName()

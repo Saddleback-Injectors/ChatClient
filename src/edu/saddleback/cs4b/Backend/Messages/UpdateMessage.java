@@ -4,18 +4,16 @@ import java.util.List;
 
 public class UpdateMessage extends BaseMessage
 {
-    private List<String> updeatedChannels;
+    private List<String> updatedChannels;
 
-    public UpdateMessage(String type, List<String> updeatedChannels)
+    public UpdateMessage(String sender, String type, List<String> updeatedChannels)
     {
-        super("Update-Msg");
-        this.updeatedChannels = updeatedChannels;
+        super(sender, "Update-Msg");
+        this.updatedChannels = updeatedChannels;
     }
 
-    @Override
-    public void setSender(String sender)
+    public List<String> getUpdatedChannels()
     {
-        this.sender = sender;
+        return updatedChannels;
     }
-
 }

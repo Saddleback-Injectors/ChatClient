@@ -4,19 +4,27 @@ import java.io.Serializable;
 
 public abstract class BaseMessage implements Serializable
 {
-    protected String sender;
+    private String sender;
     private String type;
 
-    public BaseMessage(String type)
+    public BaseMessage(String sender, String type)
     {
+        this.sender = sender;
         this.type = type;
     }
 
-    public abstract void setSender(String sender);
+    public void setSender(String sender)
+    {
+        this.sender = sender;
+    }
 
     public String getType()
     {
         return type;
     }
 
+    public String getSender()
+    {
+        return sender;
+    }
 }

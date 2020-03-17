@@ -4,13 +4,8 @@ import java.io.Serializable;
 
 public class DisconnectMessage extends BaseMessage
 {
-    public DisconnectMessage() {
-        super("Dis-Msg");
-    }
-
-    @Override
-    public void setSender(String sender)
+    public DisconnectMessage(String sender)
     {
-        this.sender = sender;
+        super(sender, "Dis-Msg");
     }
 }
