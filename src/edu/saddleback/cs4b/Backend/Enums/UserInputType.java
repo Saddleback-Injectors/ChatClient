@@ -1,4 +1,4 @@
-package edu.saddleback.cs4b.Backend;
+package edu.saddleback.cs4b.Backend.Enums;
 
 public enum UserInputType {
     SERVER("Server"),
