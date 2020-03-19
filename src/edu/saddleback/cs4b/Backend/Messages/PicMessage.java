@@ -4,7 +4,15 @@ import java.awt.image.BufferedImage;
 
 public class PicMessage extends BaseMessage
 {
-    byte[] img;
+    private byte[] img;
+    private String channel;
+
+    public PicMessage(String sender, byte[] img, String channel)
+    {
+        super(sender,"Pic-Msg");
+        this.img = img;
+        this.channel = channel;
+    }
 
     public PicMessage(String sender, byte[] img)
     {
@@ -16,4 +24,5 @@ public class PicMessage extends BaseMessage
     {
         return img;
     }
+    public String getChannel() { return channel; }
 }

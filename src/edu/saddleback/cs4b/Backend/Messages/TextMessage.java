@@ -1,7 +1,5 @@
 package edu.saddleback.cs4b.Backend.Messages;
 
-import java.io.Serializable;
-
 public class TextMessage extends BaseMessage
 {
     private String channel;
