@@ -3,13 +3,14 @@ package edu.saddleback.cs4b.Backend.Messages;
 import java.io.Serializable;
 import java.util.List;
 
-public class RegMessage implements Serializable
+public class RegMessage extends BaseMessage
 {
-    String userName;
-    List<String> channels;
+    private String userName;
+    private List<String> channels;
 
-    public RegMessage(String userName, List<String> channels)
+    public RegMessage(String sender, String userName, List<String> channels)
     {
+        super(sender, "Reg-Msg");
         this.userName = userName;
         this.channels = channels;
     }
