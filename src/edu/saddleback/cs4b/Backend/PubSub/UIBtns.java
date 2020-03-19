@@ -3,9 +3,9 @@ package edu.saddleback.cs4b.Backend.PubSub;
 import edu.saddleback.cs4b.Backend.Enums.SendTypes;
 
 public class UIBtns implements Sendable {
-    private Sendable type;
+    private SendTypes type;
 
-    public UIBtns(Sendable type) {
+    public UIBtns(SendTypes type) {
         this.type = type;
     }
     @Override
