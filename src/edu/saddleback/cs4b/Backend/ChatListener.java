@@ -1,10 +1,10 @@
 package edu.saddleback.cs4b.Backend;
 
 
-import edu.saddleback.cs4b.Backend.PubSub.ClientObserver;
-import edu.saddleback.cs4b.Backend.PubSub.ClientSubject;
-import edu.saddleback.cs4b.Backend.PubSub.Receivable;
-import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
+import edu.saddleback.cs4b.Backend.Enums.ReceiveTypes;
+import edu.saddleback.cs4b.Backend.Messages.PicMessage;
+import edu.saddleback.cs4b.Backend.Messages.TextMessage;
+import edu.saddleback.cs4b.Backend.PubSub.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -46,16 +46,17 @@ public class ChatListener implements ClientSubject, Runnable {
         {
             try
             {
+
                 Packet message = (Packet) in.readObject();
-                Serializable data = message.getData();
-                if (data instanceof TextMessage)
+                Serializable messageData = message.getData();
+                if (messageData instanceof TextMessage)
                 {
                     receivable = new UIDisplayData(ReceiveTypes.TEXT_AREA,
-                            ((TextMessage) data).getMessage(),
-                            ((TextMessage) data).getChannel());
+                            ((TextMessage) messageData).getMessage(),
+                            ((TextMessage) messageData).getChannel());
                     notifyObservers();
                 }
-                else if (data instanceof PicMessage)
+                else if (messageData instanceof PicMessage)
                 {
                     // figure out how to display / save the picture etc
                 }
@@ -73,7 +74,7 @@ public class ChatListener implements ClientSubject, Runnable {
                 ex.printStackTrace();
             }
         }//END while(listening)
-    }
+    }//END public void run()
 
     @Override
     public void notifyObservers()
