@@ -20,6 +20,18 @@ import java.util.Scanner;
 
 public class ChatSender implements UIObserver {
 
+    private ObjectOutputStream out = null;
+
+    public ChatSender()
+    {
+        this(null);
+    }
+
+    public ChatSender(ObjectOutputStream newOut)
+    {
+        out = newOut;
+    }
+
     public void sendMessages(ObjectOutputStream out, String text, byte[] picture)
     {
         BaseMessage[] messages = createNewMessage(text, picture);
@@ -35,6 +47,24 @@ public class ChatSender implements UIObserver {
             System.out.println(ex.getMessage());
         }
 
+    }
+
+
+    /*May need to redo the inputs for this one*/
+    /*
+     Input is just one seriealzable, depending on which type it is, it'will just make the apporpirate choices
+    * */
+
+    public void sendMessages(Serializable newMessage)
+    {
+        TextMessage text = new TextMessage(username, focusedChannel, message);
+        Packet packet = new Packet(MessageType.TEXT.getType(), text);
+        try {
+            out.writeObject(packet);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //listen to GUI to obtain text

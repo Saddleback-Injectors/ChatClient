@@ -2,6 +2,7 @@ package edu.saddleback.cs4b.Backend;
 
 import edu.saddleback.cs4b.Backend.Messages.DisconnectMessage;
 import edu.saddleback.cs4b.Backend.Messages.UpdateMessage;
+import edu.saddleback.cs4b.Backend.PubSub.ClientObserver;
 
 import java.io.*;
 import java.net.Socket;
@@ -50,14 +51,15 @@ public class Client implements Runnable{
             setSocket(ipAddress, portNum);
             in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            sender = new ChatSender(out);
+            listener = new ChatListener(ArrayList<ClientObserver> newObservers, in);
         } catch (IOException ex) {
             //Invalid IPAddress
             System.out.println("Invalid IP address or portNumber");
             socket = null;
         } finally {
             name = newName;
-            sender = new ChatSender();
-            listener = new ChatListener();
+
             channels = new ArrayList<>();
         }
     }//END public Client(String ipAddress, int portNum) {
