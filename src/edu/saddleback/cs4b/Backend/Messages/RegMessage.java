@@ -1,6 +1,5 @@
 package edu.saddleback.cs4b.Backend.Messages;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class RegMessage extends BaseMessage
