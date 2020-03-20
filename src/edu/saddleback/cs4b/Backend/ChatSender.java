@@ -1,11 +1,9 @@
 package edu.saddleback.cs4b.Backend;
 
-import edu.saddleback.cs4b.Backend.Messages.BaseMessage;
-import edu.saddleback.cs4b.Backend.Messages.PicMessage;
-import edu.saddleback.cs4b.Backend.Messages.RegMessage;
-import edu.saddleback.cs4b.Backend.Messages.TextMessage;
+import edu.saddleback.cs4b.Backend.Messages.*;
 import edu.saddleback.cs4b.Backend.PubSub.Sendable;
 import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
+import org.w3c.dom.Text;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -32,23 +30,6 @@ public class ChatSender implements UIObserver {
     {
         name = newName;
         out = newOut;
-    }
-
-    public void sendMessages(ObjectOutputStream out, String text, byte[] picture)
-    {
-        BaseMessage[] messages = createNewMessage(text, picture);
-
-
-        try
-        {
-            out.writeObject(messages);
-            out.flush();
-        }
-        catch (IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-
     }
 
 
@@ -142,10 +123,24 @@ public class ChatSender implements UIObserver {
 
     @Override
     public void update(Sendable data) {
-        if(data instanceof )
+        Serializable newMessage = null;
+
+        if(data instanceof TextMessage)
         {
+            newMessage = new TextMessage(name, ((TextMessage) data).getChannel(), ((TextMessage) data).getMessage());
 
         }
+        else if(data instanceof PicMessage)
+        {
+            newMessage = new PicMessage(name, ((PicMessage) data).getImg(), ((PicMessage) data).getChannel());
+        }
+        else if(data instanceof DisconnectMessage)
+        {
+            //Does this constructor initialize client in the disconnect message?
+            //Does Disconnect Message need a client variable?
+            newMessage = new DisconnectMessage(name);
+        }
 
+        sendMessages(newMessage);
     }
 }
