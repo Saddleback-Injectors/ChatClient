@@ -1,5 +1,6 @@
 package edu.saddleback.cs4b.Backend;
 
+import edu.saddleback.cs4b.Backend.Messages.DisconnectMessage;
 import edu.saddleback.cs4b.Backend.Messages.UpdateMessage;
 
 import java.io.*;
@@ -8,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Client {
-    String name;
-    Socket socket;
-    ChatSender sender;
-    ChatListener listener;
-    List<String> channels = new ArrayList<>();
-    ObjectInputStream in = null;
-    ObjectOutputStream out = null;
+public class Client implements Runnable{
+    private String name;
+    private Socket socket;
+    private  ChatSender sender;
+    private  ChatListener listener;
+    private  List<String> channels = new ArrayList<>();
+    private  ObjectInputStream in = null;
+    private ObjectOutputStream out = null;
 
 
     //start listener thread in client constructor
@@ -58,10 +59,20 @@ public class Client {
             sender = new ChatSender();
             listener = new ChatListener();
             channels = new ArrayList<>();
-            in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-            out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         }
     }//END public Client(String ipAddress, int portNum) {
+
+
+
+
+
+
+    @Override
+    public void run() {
+
+        //start listen thread
+    }
+
 
     public void sendMessages(String channel) throws Exception
     {
@@ -86,14 +97,33 @@ public class Client {
             System.out.println("Already subscribed to \"" + newChannel + "\"");
             return;
         }
-        
-        
         channels.add(newChannel);
+
         //connect message and update message
         sender.connectMessage(out, newChannel);
         try
         {
             out.writeObject(new UpdateMessage(name, "Adding-Channel", channels));
+        }
+        catch(IOException ex)
+        {
+
+        }
+    }
+
+    public void removeChannel(String newChannel)
+    {
+        if(!channels.contains(newChannel))
+        {
+            System.out.println("Not subscribed to this Channel");
+        }
+
+
+        //disconnectMessage and updateMessage
+        try
+        {
+            out.writeObject(new DisconnectMessage(name, this));
+            out.writeObject(new UpdateMessage(name, "Removing-Channel", channels));
         }
         catch(IOException ex)
         {
@@ -105,11 +135,9 @@ public class Client {
     public Socket getSocket() {
         return socket;
     }
-
     public void setSocket(Socket socket) throws IOException {
         this.socket = socket;
     }
-
     public void setSocket(String ipAddress, int portNum) throws IOException {
         this.socket = new Socket(ipAddress, portNum);
     }
@@ -142,10 +170,11 @@ public class Client {
     }
 
     //have the text output box in the GUI listen to this method
+    /*
     public void displayMessage(BaseMessage message) throws Exception
     {
         //Filtering Messages
-        if(message instanceof textMessage)
+        if(message instanceof TextMessage)
         {
             //Display text to screen
             (textMessage)message.getMessage();
@@ -174,4 +203,6 @@ public class Client {
             throw new Exception("Invalid Message Type");
         }
     }
+    */
+
 }//END public class Client {
