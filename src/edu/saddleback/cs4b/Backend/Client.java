@@ -31,13 +31,13 @@ public class Client implements Runnable{
         name = newName;
         socket = newSocket;
         sender = new ChatSender();
-        listener = new ChatListener();
-        channels = new ArrayList<>();
 
         try
         {
             in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            sender = new ChatSender(newName, out);
+            listener = new ChatListener(ArrayList<ClientObserver> newObservers, in);
         }
         catch(IOException ex)
         {
@@ -51,7 +51,7 @@ public class Client implements Runnable{
             setSocket(ipAddress, portNum);
             in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            sender = new ChatSender(out);
+            sender = new ChatSender(newName, out);
             listener = new ChatListener(ArrayList<ClientObserver> newObservers, in);
         } catch (IOException ex) {
             //Invalid IPAddress

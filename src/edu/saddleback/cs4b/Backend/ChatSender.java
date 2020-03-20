@@ -20,15 +20,17 @@ import java.util.Scanner;
 
 public class ChatSender implements UIObserver {
 
+    private String name = null;
     private ObjectOutputStream out = null;
 
     public ChatSender()
     {
-        this(null);
+        this(null, null);
     }
 
-    public ChatSender(ObjectOutputStream newOut)
+    public ChatSender(String newName, ObjectOutputStream newOut)
     {
+        name = newName;
         out = newOut;
     }
 
@@ -57,7 +59,7 @@ public class ChatSender implements UIObserver {
 
     public void sendMessages(Serializable newMessage)
     {
-        TextMessage text = new TextMessage(username, focusedChannel, message);
+        TextMessage text = new TextMessage(name, focusedChannel, message);
         Packet packet = new Packet(MessageType.TEXT.getType(), text);
         try {
             out.writeObject(packet);
