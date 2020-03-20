@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Client implements Runnable{
+public class Client{
     private String name;
     private Socket socket;
     private  ChatSender sender;
@@ -37,7 +37,7 @@ public class Client implements Runnable{
         {
             in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            sender = new ChatSender(newName, out);
+            sender = new ChatSender(newName, out, null);
             listener = new ChatListener(ArrayList<ClientObserver> newObservers, in);
             this.listenThread = new Thread(listener);
             listenThread.start();
@@ -54,7 +54,7 @@ public class Client implements Runnable{
             setSocket(ipAddress, portNum);
             in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            sender = new ChatSender(newName, out);
+            sender = new ChatSender(newName, out, null);
             listener = new ChatListener(ArrayList<ClientObserver> newObservers, in);
             this.listenThread = new Thread(listener);
             listenThread.start();
@@ -96,6 +96,7 @@ public class Client implements Runnable{
             return;
         }
         channels.add(newChannel);
+        sender.setChannels(channels);
 
         //connect message and update message
         sender.connectMessage(out, newChannel);

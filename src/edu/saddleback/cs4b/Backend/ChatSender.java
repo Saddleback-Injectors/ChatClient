@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -20,13 +22,18 @@ public class ChatSender implements UIObserver {
 
     private String name = null;
     private ObjectOutputStream out = null;
+    private List<String> channels = new ArrayList<>();
+
+    public void setChannels(List<String> channels) {
+        this.channels = channels;
+    }
 
     public ChatSender()
     {
-        this(null, null);
+        this(null, null, null);
     }
 
-    public ChatSender(String newName, ObjectOutputStream newOut)
+    public ChatSender(String newName, ObjectOutputStream newOut, List<String> channels)
     {
         name = newName;
         out = newOut;
@@ -108,7 +115,7 @@ public class ChatSender implements UIObserver {
 
     public void connectMessage(ObjectOutputStream out, String string)
     {
-        BaseMessage newMessage = new RegMessage();
+        BaseMessage newMessage = new RegMessage(name, name, ob);
 
         try
         {
