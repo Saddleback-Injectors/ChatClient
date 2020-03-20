@@ -24,21 +24,21 @@ public class ChatSender implements UIObserver {
     private ObjectOutputStream out = null;
     private List<String> channels = new ArrayList<>();
 
-    public void setChannels(List<String> channels) {
-        this.channels = channels;
-    }
+
 
     public ChatSender()
     {
         this(null, null, null);
     }
-
     public ChatSender(String newName, ObjectOutputStream newOut, List<String> channels)
     {
         name = newName;
         out = newOut;
     }
 
+    public void setChannels(List<String> channels) {
+        this.channels = channels;
+    }
 
     public void sendMessages(Serializable newMessage)
     {
@@ -115,7 +115,7 @@ public class ChatSender implements UIObserver {
 
     public void connectMessage(ObjectOutputStream out, String string)
     {
-        BaseMessage newMessage = new RegMessage(name, name, ob);
+        BaseMessage newMessage = new RegMessage(name, name, channels);
 
         try
         {
