@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 //Client Subject
 //Call notify when receive message
-public class ChatListener implements ClientSubject {
+public class ChatListener implements ClientSubject, Runnable {
 
     private Receivable receivable;
 
@@ -21,15 +21,14 @@ public class ChatListener implements ClientSubject {
      *Create a thread that is always listening for messages from the input stream
      */
 
+    @Override
+    public void run() {
+        boolean listening = true;
 
-    public void listenForMessages()
-    {
+        while(listening)
+        {
 
-    }
-
-    public void updateChatMessagesBox()
-    {
-
+        }//END while(listening)
     }
 
     @Override
