@@ -52,62 +52,20 @@ public class ChatSender implements UIObserver {
     }
 
 
-    /*May need to redo the inputs for this one*/
-    /*
-     Input is just one seriealzable, depending on which type it is, it'will just make the apporpirate choices
-    * */
-
     public void sendMessages(Serializable newMessage)
     {
-        TextMessage text = new TextMessage(name, focusedChannel, message);
-        Packet packet = new Packet(MessageType.TEXT.getType(), text);
-        try {
-            out.writeObject(packet);
+        try
+        {
+            out.writeObject(newMessage);
             out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
         }
     }
 
-    //listen to GUI to obtain text
-    public void sendMessages(ObjectOutputStream out, String name, String channel)
-    {
-        BaseMessage newMessage = null;
-        String text = //Get from text box;
-        byte[] picture = //get from add picture button
 
-        if(text != null)
-        {
-            newMessage = new TextMessage(name, channel, text);
-
-            try
-            {
-                out.writeObject(newMessage);
-                out.flush();
-            }
-            catch (IOException ex)
-            {
-                System.out.println(ex.getMessage());
-            }
-        }
-
-        if(picture != null)
-        {
-            newMessage = new PicMessage(name, picture);
-            // why does pic message not specify a channel?
-
-            try
-            {
-                out.writeObject(newMessage);
-                out.flush();
-            }
-            catch (IOException ex)
-            {
-                System.out.println(ex.getMessage());
-            }
-        }
-
-    }
 
     public byte[] addImage(Scanner scanner) throws Exception
     {
@@ -184,6 +142,10 @@ public class ChatSender implements UIObserver {
 
     @Override
     public void update(Sendable data) {
+        if(data instanceof )
+        {
+
+        }
 
     }
 }
