@@ -77,12 +77,6 @@ public class ChatSender implements UIObserver {
 
     }
 
-
-    private void packageMessage()
-    {
-
-    }
-
     public byte[] addImage(Scanner scanner) throws Exception
     {
         String picType;
