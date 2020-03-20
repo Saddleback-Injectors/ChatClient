@@ -2,6 +2,7 @@ package edu.saddleback.cs4b.Backend;
 
 import edu.saddleback.cs4b.Backend.Messages.BaseMessage;
 import edu.saddleback.cs4b.Backend.Messages.PicMessage;
+import edu.saddleback.cs4b.Backend.Messages.RegMessage;
 import edu.saddleback.cs4b.Backend.Messages.TextMessage;
 
 import javax.imageio.ImageIO;
@@ -10,6 +11,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.Scanner;
+
+
+//Just getting message string need to make new message object
+
 
 public class ChatSender {
 
@@ -70,19 +75,6 @@ public class ChatSender {
 
     }
 
-
-
-    /*
-    public BaseMessage[] createNewMessage(String text, byte[] picture)
-    {
-        [2]BaseMessage newMessages;
-
-        //Not picture
-        if(picture == null)
-        {
-            newMessages[0] = new
-        }
-    }*/
 
     private void packageMessage()
     {
@@ -147,8 +139,18 @@ public class ChatSender {
         return imageInByte;
     }
 
-    public RegMessage connectMessage(String string)
+    public void connectMessage(ObjectOutputStream out, String string)
     {
+        BaseMessage newMessage = new RegMessage();
 
+        try
+        {
+            out.writeObject(newMessage);
+            out.flush();
+        }
+        catch (IOException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
 }

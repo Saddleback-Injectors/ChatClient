@@ -1,5 +1,7 @@
 package edu.saddleback.cs4b.Backend;
 
+import edu.saddleback.cs4b.Backend.Messages.UpdateMessage;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -65,7 +67,7 @@ public class Client {
     {
         if(channel.contains(channel))
         {
-            sender.sendMessages(name, channel);
+            sender.sendMessages(out, name, channel);
         }
         else
         {
@@ -73,18 +75,23 @@ public class Client {
         }
     }
 
-    public void addChannel(String string)
+    public void addChannel(String newChannel)
     {
         /*
          * error check against server's list of channels to see if it's valid?
          */
 
-        channels.add(string);
-
-        /*
-         * send connect message
-         */
-        sender.connectMessage(string);
+        if(channels.contains(newChannel))
+        {
+            System.out.println("Already subscribed to \"" + newChannel + "\"");
+            return;
+        }
+        
+        
+        channels.add(newChannel);
+        //connect message and update message
+        sender.connectMessage(out, newChannel);
+        out.writeObject(new UpdateMessage(name, "Update-Msg", channels));
     }
 
     public Socket getSocket() {
