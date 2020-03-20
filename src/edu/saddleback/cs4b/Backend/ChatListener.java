@@ -3,6 +3,7 @@ package edu.saddleback.cs4b.Backend;
 
 import edu.saddleback.cs4b.Backend.PubSub.ClientObserver;
 import edu.saddleback.cs4b.Backend.PubSub.ClientSubject;
+import edu.saddleback.cs4b.Backend.PubSub.Receivable;
 import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
 
 import java.util.ArrayList;
@@ -11,7 +12,10 @@ import java.util.ArrayList;
 //Call notify when receive message
 public class ChatListener implements ClientSubject {
 
-    private ArrayList<UIObserver> observers;
+    private Receivable receivable;
+
+    private ArrayList<ClientObserver> observers;
+
 
     /*
      *Create a thread that is always listening for messages from the input stream
@@ -33,7 +37,7 @@ public class ChatListener implements ClientSubject {
     {
         for(int i = 0; i < observers.size(); i++)
         {
-            observers.get(i).update(/*DATA?????*/);
+            observers.get(i).update(receivable);
         }
     }
 
