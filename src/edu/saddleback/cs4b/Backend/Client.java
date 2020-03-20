@@ -18,6 +18,7 @@ public class Client implements Runnable{
     private  List<String> channels = new ArrayList<>();
     private  ObjectInputStream in = null;
     private ObjectOutputStream out = null;
+    private Thread listenThread;
 
 
     //start listener thread in client constructor
@@ -38,6 +39,8 @@ public class Client implements Runnable{
             out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             sender = new ChatSender(newName, out);
             listener = new ChatListener(ArrayList<ClientObserver> newObservers, in);
+            this.listenThread = new Thread(listener);
+            listenThread.start();
         }
         catch(IOException ex)
         {
@@ -53,6 +56,8 @@ public class Client implements Runnable{
             out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             sender = new ChatSender(newName, out);
             listener = new ChatListener(ArrayList<ClientObserver> newObservers, in);
+            this.listenThread = new Thread(listener);
+            listenThread.start();
         } catch (IOException ex) {
             //Invalid IPAddress
             System.out.println("Invalid IP address or portNumber");
@@ -65,15 +70,6 @@ public class Client implements Runnable{
     }//END public Client(String ipAddress, int portNum) {
 
 
-
-
-
-
-    @Override
-    public void run() {
-
-        //start listen thread
-    }
 
 
     public void sendMessages(String channel) throws Exception
