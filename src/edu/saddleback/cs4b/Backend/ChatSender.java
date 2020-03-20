@@ -4,6 +4,8 @@ import edu.saddleback.cs4b.Backend.Messages.BaseMessage;
 import edu.saddleback.cs4b.Backend.Messages.PicMessage;
 import edu.saddleback.cs4b.Backend.Messages.RegMessage;
 import edu.saddleback.cs4b.Backend.Messages.TextMessage;
+import edu.saddleback.cs4b.Backend.PubSub.Sendable;
+import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -16,7 +18,7 @@ import java.util.Scanner;
 //Just getting message string need to make new message object
 
 
-public class ChatSender {
+public class ChatSender implements UIObserver {
 
     public void sendMessages(ObjectOutputStream out, String text, byte[] picture)
     {
@@ -152,5 +154,10 @@ public class ChatSender {
         {
             System.out.println(ex.getMessage());
         }
+    }
+
+    @Override
+    public void update(Sendable data) {
+
     }
 }
