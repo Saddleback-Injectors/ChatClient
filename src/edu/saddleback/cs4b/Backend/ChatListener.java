@@ -1,6 +1,5 @@
 package edu.saddleback.cs4b.Backend;
 
-
 import edu.saddleback.cs4b.Backend.Enums.ReceiveTypes;
 import edu.saddleback.cs4b.Backend.Messages.PicMessage;
 import edu.saddleback.cs4b.Backend.Messages.TextMessage;
@@ -88,7 +87,7 @@ public class ChatListener implements ClientSubject, Runnable {
     @Override
     public void registerObserver(ClientObserver newObserver)
     {
-        observers.add(newObserver)
+        observers.add(newObserver);
     }
 
     @Override
