@@ -91,7 +91,15 @@ public class Client {
         channels.add(newChannel);
         //connect message and update message
         sender.connectMessage(out, newChannel);
-        out.writeObject(new UpdateMessage(name, "Update-Msg", channels));
+        try
+        {
+            out.writeObject(new UpdateMessage(name, "Adding-Channel", channels));
+        }
+        catch(IOException ex)
+        {
+
+        }
+
     }
 
     public Socket getSocket() {
