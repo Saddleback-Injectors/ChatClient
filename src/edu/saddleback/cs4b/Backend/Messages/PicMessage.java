@@ -1,7 +1,5 @@
 package edu.saddleback.cs4b.Backend.Messages;
 
-import java.awt.image.BufferedImage;
-
 public class PicMessage extends BaseMessage
 {
     private byte[] img;
@@ -19,7 +17,7 @@ public class PicMessage extends BaseMessage
         super(sender, "Pic-Msg");
         this.img = img;
     }
-
+    
     public byte[] getImg()
     {
         return img;

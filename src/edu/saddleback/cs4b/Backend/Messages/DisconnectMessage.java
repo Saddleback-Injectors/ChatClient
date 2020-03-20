@@ -1,7 +1,5 @@
 package edu.saddleback.cs4b.Backend.Messages;
 
-import java.io.Serializable;
-
 public class DisconnectMessage extends BaseMessage
 {
     private Runnable client;
