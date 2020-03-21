@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class Client
+public class Client implements UIObserver
 {
     private ChatSender sender;
     private ChatListener listener;
@@ -78,7 +78,7 @@ public class Client
         }
     }
 
-    private startUp()
+    private void startUp()
     {
         createSocket();
         if(!invalidCredentials)
@@ -96,19 +96,19 @@ public class Client
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public void update(Sendable data) {
+        String type = data.getType();
+        if (type.equals(SendTypes.PORT_NUMBER.getType())) {
+            UIFields ui = (UIFields)data;
+            String strPort = (String)ui.getValue();
+            port = Integer.parseInt(strPort);
+        } else if (type.equals(SendTypes.SERVER.getType())) {
+            UIFields ui = (UIFields)data;
+            host = (String)ui.getValue();
+        } else if (data.getType().equals("connect")) {
+            startUp();
+        }
+    }
 
 }//END public class Client {
