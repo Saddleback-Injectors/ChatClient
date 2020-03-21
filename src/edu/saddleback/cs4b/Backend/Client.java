@@ -12,15 +12,30 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Client{
-    private String name;
+public class Client
+{
+    private ChatSender sender;
+    private ChatListener listener;
     private Socket socket;
-    private  ChatSender sender;
-    private  ChatListener listener;
-    private  List<String> channels = new ArrayList<>();
-    private  ObjectInputStream in = null;
-    private ObjectOutputStream out = null;
     private Thread listenThread;
+    private ObjectOutputStream out;
+    private ObjectInputStream  in;
+    private ClientChatController controller;
+    private String host;
+    private int port;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //start listener thread in client constructor
