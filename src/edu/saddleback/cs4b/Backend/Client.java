@@ -32,9 +32,7 @@ public class Client
     public Client() {
         this(null, null, null);
     }
-
     public Client(String newName, Socket newSocket, ClientChatController controller) {
-        name = newName;
         socket = newSocket;
         sender = new ChatSender();
 
@@ -42,9 +40,8 @@ public class Client
         {
             in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            sender = new ChatSender(newName, out, null);
-            listener = new ChatListener(controller, in);
-            this.listenThread = new Thread(listener);
+            sender = null;
+            listener = null;
             listenThread.start();
         }
         catch(IOException ex)
@@ -53,26 +50,13 @@ public class Client
         }
 
     }
-
-    public Client(String newName, String ipAddress, int portNum) {
-        try {
-            setSocket(ipAddress, portNum);
-            in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-            out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            sender = new ChatSender(newName, out, null);
-            listener = new ChatListener(ArrayList<ClientObserver> newObservers, in);
-            this.listenThread = new Thread(listener);
-            listenThread.start();
-        } catch (IOException ex) {
-            //Invalid IPAddress
-            System.out.println("Invalid IP address or portNumber");
-            socket = null;
-        } finally {
-            name = newName;
-
-            channels = new ArrayList<>();
-        }
-    }//END public Client(String ipAddress, int portNum) {
+    public Client(ClientChatController controller) {
+        this.controller = controller;
+        this.host = "";
+        this.port = 0;
+        this.invalidCredentials = false;
+        controller.registerObserver(this);
+    }
 
 
 
