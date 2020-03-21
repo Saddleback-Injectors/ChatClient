@@ -30,11 +30,15 @@ public class ChatSender implements UIObserver {
     private String focusedChannel;  //current channel window opened
 
 
+    /* Constructors */
+    public ChatSender()
+    {
+        this(null, null, null, null);
+    }
     public ChatSender(ObjectOutputStream newOut, UISubject newSubject)
     {
         this("User", "A", newOut, newSubject)
     }
-
     public ChatSender(String newUsername, String newFocusedChannel, ObjectOutputStream newOut, UISubject newSubject)
     {
         subject = newSubject;
@@ -47,20 +51,41 @@ public class ChatSender implements UIObserver {
     @Override
     public void update(Sendable data)
     {
+        String type = data.getType();
+
+        if(type.equals(SendTypes.MESSAGE.getType()))
+        {
+            UIFields messageField = (UIFields)data;
+            if(messageField.getValue() instanceof String)
+            {
+                String stringMessage = (String) messageField.getValue();
+                focusedChannel =messageField.getDestination();
+                sendMessages(stringMessage);
+            }
+            else if(messageField.getValue() instanceof PicMessage)
+            {
+                sendPicture((PicMessage)messageField.getDestination());
+            }//END else of if(messageField.getValue() instanceof String)
+        }//END if(type.equals(SendTypes.MESSAGE.getType()))
+        else if(type.equals(SendTypes.JOIN.getType()))
+        {
+            UIFields message = (UIFields)data;
+            RegMessage reg = (RegMessage)message.getValue();
+            register(reg)
+        }
+        else if(type.equals(SendTypes.CHANNEL.getType()))
+        {
+            UIFields message = (UIFields)data;
+            UpdateMessage update = (UpdateMessage)message.getValue();
+            updateChannels(update)
+        }
 
     }
 
 
 
-    public ChatSender()
-    {
-        this(null, null, null);
-    }
-    public ChatSender(String newName, ObjectOutputStream newOut, List<String> channels)
-    {
-        name = newName;
-        out = newOut;
-    }
+
+
 
     public void setChannels(List<String> channels) {
         this.channels = channels;
