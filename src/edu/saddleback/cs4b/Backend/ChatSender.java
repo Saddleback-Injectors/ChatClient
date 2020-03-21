@@ -110,7 +110,17 @@ public class ChatSender implements UIObserver {
         }
     }
 
-
+    private void register(RegMessage regMessage)
+    {
+        try
+        {
+            out.writeObject(new Packet(MessageType.REGISTRATION.getType(), regMessage))
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
 
 
 
