@@ -83,7 +83,18 @@ public class ChatSender implements UIObserver {
     }
 
 
-
+    private void updateChannels(UpdateMessage updateMessage)
+    {
+        try
+        {
+            out.writeObject(new Packet(MessageType.IMAGE.getType(), updateMessage));
+            out.flush();
+        }
+        catch(IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
 
 
 
