@@ -24,6 +24,19 @@ import java.util.ArrayList;
 
 public class ChatSender implements UIObserver {
 
+    private ObjectOutputStream out;
+    private UISubject subject;
+    private String username;
+    private String focusedChannel;  //current channel window opened
+
+
+
+
+
+
+
+
+
 
     private String name = null;
     private ObjectOutputStream out = null;
