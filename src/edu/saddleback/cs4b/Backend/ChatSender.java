@@ -49,37 +49,34 @@ public class ChatSender implements UIObserver {
     }
 
     @Override
-    public void update(Sendable data)
-    {
+    public void update(Sendable data) {
         String type = data.getType();
-
-        if(type.equals(SendTypes.MESSAGE.getType()))
+        if (type.equals(SendTypes.MESSAGE.getType()))
         {
             UIFields messageField = (UIFields)data;
-            if(messageField.getValue() instanceof String)
+            if (messageField.getValue() instanceof TextMessage)
             {
-                String stringMessage = (String) messageField.getValue();
-                focusedChannel =messageField.getDestination();
-                sendMessage(stringMessage);
+                TextMessage message = (TextMessage) messageField.getValue();
+                focusedChannel = message.getChannel();
+                sendMessage(message);
             }
-            else if(messageField.getValue() instanceof PicMessage)
+            else if (messageField.getValue() instanceof PicMessage)
             {
                 sendPicture((PicMessage)messageField.getValue());
-            }//END else of if(messageField.getValue() instanceof String)
-        }//END if(type.equals(SendTypes.MESSAGE.getType()))
-        else if(type.equals(SendTypes.JOIN.getType()))
+            }
+        }
+        else if (type.equals(SendTypes.JOIN.getType()))
         {
             UIFields message = (UIFields)data;
             RegMessage reg = (RegMessage)message.getValue();
             register(reg);
         }
-        else if(type.equals(SendTypes.CHANNEL.getType()))
+        else if (type.equals(SendTypes.CHANNEL.getType()))
         {
             UIFields message = (UIFields)data;
-            UpdateMessage update = (UpdateMessage)message.getValue();
-            updateChannels(update);
-        }//END else for if(type.equals(SendTypes.MESSAGE.getType()))
-
+            UpdateMessage um = (UpdateMessage)message.getValue();
+            updateChannels(um);
+        }
     }
 
     private void updateChannels(UpdateMessage updateMessage)
@@ -120,7 +117,7 @@ public class ChatSender implements UIObserver {
         }
     }
 
-    private void sendMessage(String message)
+    private void sendMessage(TextMessage message)
     {
         TextMessage textMessage = new TextMessage(username, focusedChannel, message);
         Packet packet = new Packet(MessageType.TEXT.getType(), textMessage);
