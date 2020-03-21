@@ -1,15 +1,16 @@
 package edu.saddleback.cs4b.Backend;
 
-import edu.saddleback.cs4b.Backend.Messages.DisconnectMessage;
-import edu.saddleback.cs4b.Backend.Messages.UpdateMessage;
-import edu.saddleback.cs4b.Backend.PubSub.ClientObserver;
+import edu.saddleback.cs4b.Backend.Enums.SendTypes;
+import edu.saddleback.cs4b.Backend.Messages.RegMessage;
+import edu.saddleback.cs4b.Backend.PubSub.Sendable;
+import edu.saddleback.cs4b.Backend.PubSub.UIFields;
+import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
 import edu.saddleback.cs4b.UI.ClientChatController;
+import javafx.scene.Scene;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class Client{
     private String name;
