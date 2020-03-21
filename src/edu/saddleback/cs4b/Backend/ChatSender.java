@@ -44,6 +44,12 @@ public class ChatSender implements UIObserver {
         subject.registerObserver(this);
     }
 
+    @Override
+    public void update(Sendable data)
+    {
+
+    }
+
 
 
     public ChatSender()
@@ -148,21 +154,5 @@ public class ChatSender implements UIObserver {
         }
     }
 
-    @Override
-    public void update(Sendable data) {
-        Serializable newMessage = null;
 
-        if(data instanceof TextMessage)
-        {
-            newMessage = new TextMessage(name, ((TextMessage) data).getChannel(), ((TextMessage) data).getMessage());
-
-        }
-        else if(data instanceof PicMessage)
-        {
-            newMessage = new PicMessage(name, ((PicMessage) data).getImg(), ((PicMessage) data).getChannel());
-        }
-
-
-        sendMessages(newMessage);
-    }
 }
