@@ -12,23 +12,11 @@ import edu.saddleback.cs4b.Backend.PubSub.UIFields;
 import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
 import edu.saddleback.cs4b.Backend.PubSub.UISubject;
 
-
-
-
-
-import edu.saddleback.cs4b.Backend.Messages.*;
-import edu.saddleback.cs4b.Backend.PubSub.Sendable;
-import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
-import org.w3c.dom.Text;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URL;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 
 //Just getting message string need to make new message object
