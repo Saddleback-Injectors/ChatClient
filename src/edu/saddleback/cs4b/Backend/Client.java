@@ -1,17 +1,14 @@
 package edu.saddleback.cs4b.Backend;
 
 import edu.saddleback.cs4b.Backend.Enums.SendTypes;
-import edu.saddleback.cs4b.Backend.Messages.RegMessage;
 import edu.saddleback.cs4b.Backend.PubSub.Sendable;
 import edu.saddleback.cs4b.Backend.PubSub.UIFields;
 import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
 import edu.saddleback.cs4b.UI.ClientChatController;
-import javafx.scene.Scene;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 public class Client implements UIObserver
 {
@@ -25,7 +22,6 @@ public class Client implements UIObserver
     private String host;
     private int port;
     private boolean invalidCredentials;
-
 
 
     /* Constructors */
@@ -81,19 +77,10 @@ public class Client implements UIObserver
     private void startUp()
     {
         createSocket();
-        if(!invalidCredentials)
-        {
-            sender = new ChatSender(out, controller);
-            listener = new ChatListener(in, controller);
-            listenThread = new Thread(listener);
-            listenThread.start();
-        }
-        else
-        {
-            invalidCredentials = false;
-            host = "";
-            port = 0;
-        }
+        this.sender = new ChatSender(out, controller);
+        this.listener = new ChatListener(in, controller);
+        this.listenThread = new Thread(listener);
+        listenThread.start();
     }
 
     @Override

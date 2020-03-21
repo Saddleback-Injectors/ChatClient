@@ -11,6 +11,8 @@ import edu.saddleback.cs4b.Backend.PubSub.Sendable;
 import edu.saddleback.cs4b.Backend.PubSub.UIFields;
 import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
 import edu.saddleback.cs4b.Backend.PubSub.UISubject;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -79,6 +81,7 @@ public class ChatSender implements UIObserver {
         }
     }
 
+    // repeat code will be later refactored to be more concise
     private void updateChannels(UpdateMessage updateMessage)
     {
         try
@@ -114,6 +117,16 @@ public class ChatSender implements UIObserver {
         catch (IOException ex)
         {
             ex.printStackTrace();
+        }
+        catch (NullPointerException ne)
+        {
+            // should figure out a way later to have this solely handled by controller
+            // better infrastructure in-place where this happens with sent message
+            Platform.runLater(()-> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Server appears to be offline. Please exit and try again later");
+                alert.showAndWait();
+            });
         }
     }
 

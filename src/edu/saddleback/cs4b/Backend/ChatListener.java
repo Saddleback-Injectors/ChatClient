@@ -9,10 +9,7 @@ import edu.saddleback.cs4b.Backend.PubSub.ClientSubject;
 import edu.saddleback.cs4b.Backend.PubSub.Receivable;
 import edu.saddleback.cs4b.Backend.PubSub.UIDisplayData;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -78,6 +75,16 @@ public class ChatListener implements ClientSubject, Runnable {
             catch (SocketException socketEx)
             {
                 listening = false;
+            }
+            catch (EOFException eof)
+            {
+                listening = false;
+                String error = "Server has been unexpectedly shutoff, please restart";
+                TextMessage offlineServerMsg = new TextMessage("SERVER", "", error);
+                receivable = new UIDisplayData(ReceiveTypes.TEXT_AREA,
+                        offlineServerMsg,
+                        "");
+                notifyObservers();
             }
             catch (IOException ioEx)
             {
