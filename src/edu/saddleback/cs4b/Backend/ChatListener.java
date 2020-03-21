@@ -33,10 +33,6 @@ public class ChatListener implements ClientSubject, Runnable {
     }
 
 
-    /*
-     *Create a thread that is always listening for messages from the input stream
-     */
-
     @Override
     public void run() {
         boolean listening = true;
@@ -45,7 +41,6 @@ public class ChatListener implements ClientSubject, Runnable {
         {
             try
             {
-
                 Packet message = (Packet) in.readObject();
                 Serializable messageData = message.getData();
                 if (messageData instanceof TextMessage)

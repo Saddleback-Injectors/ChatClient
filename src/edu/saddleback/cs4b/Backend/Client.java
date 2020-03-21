@@ -3,6 +3,7 @@ package edu.saddleback.cs4b.Backend;
 import edu.saddleback.cs4b.Backend.Messages.DisconnectMessage;
 import edu.saddleback.cs4b.Backend.Messages.UpdateMessage;
 import edu.saddleback.cs4b.Backend.PubSub.ClientObserver;
+import edu.saddleback.cs4b.UI.ClientChatController;
 
 import java.io.*;
 import java.net.Socket;
@@ -25,10 +26,10 @@ public class Client{
 
     /* Constructors */
     public Client() {
-        this(null, null);
+        this(null, null, null);
     }
 
-    public Client(String newName, Socket newSocket) {
+    public Client(String newName, Socket newSocket, ClientChatController controller) {
         name = newName;
         socket = newSocket;
         sender = new ChatSender();
@@ -38,7 +39,7 @@ public class Client{
             in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             sender = new ChatSender(newName, out, null);
-            listener = new ChatListener(ArrayList<ClientObserver> newObservers, in);
+            listener = new ChatListener(controller, in);
             this.listenThread = new Thread(listener);
             listenThread.start();
         }

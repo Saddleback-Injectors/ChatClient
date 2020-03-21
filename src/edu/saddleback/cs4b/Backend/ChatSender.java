@@ -1,5 +1,21 @@
 package edu.saddleback.cs4b.Backend;
 
+/*Imports*/
+import edu.saddleback.cs4b.Backend.Enums.MessageType;
+import edu.saddleback.cs4b.Backend.Enums.SendTypes;
+import edu.saddleback.cs4b.Backend.Messages.PicMessage;
+import edu.saddleback.cs4b.Backend.Messages.RegMessage;
+import edu.saddleback.cs4b.Backend.Messages.TextMessage;
+import edu.saddleback.cs4b.Backend.Messages.UpdateMessage;
+import edu.saddleback.cs4b.Backend.PubSub.Sendable;
+import edu.saddleback.cs4b.Backend.PubSub.UIFields;
+import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
+import edu.saddleback.cs4b.Backend.PubSub.UISubject;
+
+
+
+
+
 import edu.saddleback.cs4b.Backend.Messages.*;
 import edu.saddleback.cs4b.Backend.PubSub.Sendable;
 import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
@@ -19,6 +35,7 @@ import java.util.Scanner;
 
 
 public class ChatSender implements UIObserver {
+
 
     private String name = null;
     private ObjectOutputStream out = null;
@@ -141,12 +158,7 @@ public class ChatSender implements UIObserver {
         {
             newMessage = new PicMessage(name, ((PicMessage) data).getImg(), ((PicMessage) data).getChannel());
         }
-        else if(data instanceof DisconnectMessage)
-        {
-            //Does this constructor initialize client in the disconnect message?
-            //Does Disconnect Message need a client variable?
-            newMessage = new DisconnectMessage(name);
-        }
+
 
         sendMessages(newMessage);
     }
