@@ -82,7 +82,6 @@ public class ChatSender implements UIObserver {
 
     }
 
-
     private void updateChannels(UpdateMessage updateMessage)
     {
         try
@@ -95,8 +94,6 @@ public class ChatSender implements UIObserver {
             ex.printStackTrace();
         }
     }
-
-
     private void sendPicture(PicMessage pictureMessage)
     {
         try
@@ -109,12 +106,13 @@ public class ChatSender implements UIObserver {
             ex.printStackTrace();
         }
     }
-
     private void register(RegMessage regMessage)
     {
         try
         {
-            out.writeObject(new Packet(MessageType.REGISTRATION.getType(), regMessage))
+            out.writeObject(new Packet(MessageType.REGISTRATION.getType(), regMessage));
+            out.flush();
+
         }
         catch (IOException ex)
         {
@@ -123,7 +121,21 @@ public class ChatSender implements UIObserver {
     }
 
 
+    private void sendMessage(String message)
+    {
+        TextMessage textMessage = new TextMessage(username, focusedChannel, message);
+        Packet packet = new Packet(MessageType.TEXT.getType(), textMessage);
 
+        try
+        {
+            out.writeObject(packet);
+            out.flush();
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
 
 
 
