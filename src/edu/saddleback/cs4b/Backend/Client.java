@@ -59,9 +59,6 @@ public class Client
     }
 
 
-
-
-
     private void createSocket()
     {
         try
@@ -80,6 +77,37 @@ public class Client
             ex.printStackTrace();
         }
     }
+
+    private startUp()
+    {
+        createSocket();
+        if(!invalidCredentials)
+        {
+            sender = new ChatSender(out, controller);
+            listener = new ChatListener(in, controller);
+            listenThread = new Thread(listener);
+            listenThread.start();
+        }
+        else
+        {
+            invalidCredentials = false;
+            host = "";
+            port = 0;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public void sendMessages(String channel) throws Exception
