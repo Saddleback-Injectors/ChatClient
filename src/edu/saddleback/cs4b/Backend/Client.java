@@ -1,6 +1,5 @@
 package edu.saddleback.cs4b.Backend;
 
-import com.sun.javafx.iio.ios.IosDescriptor;
 import edu.saddleback.cs4b.Backend.Enums.SendTypes;
 import edu.saddleback.cs4b.Backend.Messages.RegMessage;
 import edu.saddleback.cs4b.Backend.PubSub.Sendable;
@@ -11,6 +10,7 @@ import javafx.scene.Scene;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class Client
@@ -44,15 +44,6 @@ public class Client
 
 
 
-
-
-
-
-
-
-
-
-    //start listener thread in client constructor
 
     /* Constructors */
     public Client() {
