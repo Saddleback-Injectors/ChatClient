@@ -81,19 +81,10 @@ public class Client implements UIObserver
     private void startUp()
     {
         createSocket();
-        if(!invalidCredentials)
-        {
-            sender = new ChatSender(out, controller);
-            listener = new ChatListener(in, controller);
-            listenThread = new Thread(listener);
-            listenThread.start();
-        }
-        else
-        {
-            invalidCredentials = false;
-            host = "";
-            port = 0;
-        }
+        this.sender = new ChatSender(out, controller);
+        this.listener = new ChatListener(in, controller);
+        this.listenThread = new Thread(listener);
+        listenThread.start();
     }
 
     @Override
