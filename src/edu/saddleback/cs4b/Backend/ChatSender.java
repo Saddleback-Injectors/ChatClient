@@ -30,17 +30,19 @@ public class ChatSender implements UIObserver {
     private String focusedChannel;  //current channel window opened
 
 
+    public ChatSender(ObjectOutputStream newOut, UISubject newSubject)
+    {
+        this("User", "A", newOut, newSubject)
+    }
 
-
-
-
-
-
-
-
-    private String name = null;
-    private ObjectOutputStream out = null;
-    private List<String> channels = new ArrayList<>();
+    public ChatSender(String newUsername, String newFocusedChannel, ObjectOutputStream newOut, UISubject newSubject)
+    {
+        subject = newSubject;
+        out = newOut;
+        username = newUsername;
+        focusedChannel = newFocusedChannel;
+        subject.registerObserver(this);
+    }
 
 
 
