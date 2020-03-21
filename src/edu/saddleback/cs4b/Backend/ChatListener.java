@@ -55,39 +55,40 @@ public class ChatListener implements ClientSubject, Runnable {
     @Override
     public void run() {
         boolean listening = true;
-
-        while(listening)
+        while (listening)
         {
             try
             {
                 Packet message = (Packet) in.readObject();
-                Serializable messageData = message.getData();
-                if (messageData instanceof TextMessage)
+                Serializable data = message.getData();
+                if (data instanceof TextMessage)
                 {
                     receivable = new UIDisplayData(ReceiveTypes.TEXT_AREA,
-                            ((TextMessage) messageData).getMessage(),
-                            ((TextMessage) messageData).getChannel());
+                            (TextMessage)data,
+                            ((TextMessage) data).getChannel());
                     notifyObservers();
                 }
-                else if (messageData instanceof PicMessage)
+                else if (data instanceof PicMessage)
                 {
-                    // figure out how to display / save the picture etc
+                    receivable = new UIDisplayData(ReceiveTypes.TEXT_AREA, data, (
+                            (PicMessage) data).getChannel());
+                    notifyObservers();
                 }
             }
             catch (SocketException socketEx)
             {
                 listening = false;
             }
-            catch (IOException ex)
+            catch (IOException ioEx)
             {
-                ex.printStackTrace();
+                ioEx.printStackTrace();
             }
-            catch (ClassNotFoundException ex)
+            catch (ClassNotFoundException notFoundEx)
             {
-                ex.printStackTrace();
+                notFoundEx.printStackTrace();
             }
-        }//END while(listening)
-    }//END public void run()
+        }//END while (listening)
+    }//end public void run()
 
     @Override
     public void notifyObservers()
