@@ -1,5 +1,6 @@
 package edu.saddleback.cs4b.Backend;
 
+import com.sun.javafx.iio.ios.IosDescriptor;
 import edu.saddleback.cs4b.Backend.Enums.SendTypes;
 import edu.saddleback.cs4b.Backend.Messages.RegMessage;
 import edu.saddleback.cs4b.Backend.PubSub.Sendable;
@@ -24,7 +25,20 @@ public class Client
     private String host;
     private int port;
 
-
+    private void createSocket()
+    {
+        try
+        {
+            socket = new Socket(host, port);
+            out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            out.flush();
+            in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
 
 
 
