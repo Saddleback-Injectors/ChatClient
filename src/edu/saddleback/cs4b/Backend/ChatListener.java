@@ -36,11 +36,19 @@ public class ChatListener implements ClientSubject, Runnable {
         this(null, null);
     }
 
-    public ChatListener(ArrayList<ClientObserver> newObservers, ObjectInputStream newIn)
-    {
+    public ChatListener(ObjectInputStream newIn, ClientObserver controller) {
+        observers = new ArrayList<>();
+        registerObserver(controller);
         receivable = null;
-        observers = newObservers;
         in = newIn;
+        try
+        {
+            receivable = new UIDisplayData(ReceiveTypes.HOST, InetAddress.getLocalHost().getHostName(), "");
+            notifyObservers();
+        } catch (UnknownHostException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
 
