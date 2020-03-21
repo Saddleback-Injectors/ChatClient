@@ -60,25 +60,25 @@ public class ChatSender implements UIObserver {
             {
                 String stringMessage = (String) messageField.getValue();
                 focusedChannel =messageField.getDestination();
-                sendMessages(stringMessage);
+                sendMessage(stringMessage);
             }
             else if(messageField.getValue() instanceof PicMessage)
             {
-                sendPicture((PicMessage)messageField.getDestination());
+                sendPicture((PicMessage)messageField.getValue());
             }//END else of if(messageField.getValue() instanceof String)
         }//END if(type.equals(SendTypes.MESSAGE.getType()))
         else if(type.equals(SendTypes.JOIN.getType()))
         {
             UIFields message = (UIFields)data;
             RegMessage reg = (RegMessage)message.getValue();
-            register(reg)
+            register(reg);
         }
         else if(type.equals(SendTypes.CHANNEL.getType()))
         {
             UIFields message = (UIFields)data;
             UpdateMessage update = (UpdateMessage)message.getValue();
-            updateChannels(update)
-        }
+            updateChannels(update);
+        }//END else for if(type.equals(SendTypes.MESSAGE.getType()))
 
     }
 
@@ -120,7 +120,6 @@ public class ChatSender implements UIObserver {
         }
     }
 
-
     private void sendMessage(String message)
     {
         TextMessage textMessage = new TextMessage(username, focusedChannel, message);
@@ -136,106 +135,4 @@ public class ChatSender implements UIObserver {
             ex.printStackTrace();
         }
     }
-
-
-
-
-
-
-
-
-
-    public void setChannels(List<String> channels) {
-        this.channels = channels;
-    }
-
-    public void sendMessages(Serializable newMessage)
-    {
-        try
-        {
-            out.writeObject(newMessage);
-            out.flush();
-        }
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
-
-
-    public byte[] addImage(Scanner scanner) throws Exception
-    {
-        String picType;
-        boolean validType = false;
-        String imageLocation;
-        BufferedImage image = null;
-
-        //Getting type of file from user
-        do{
-            System.out.println("How would you like to add your image?");
-            System.out.print("File or URL: ");
-            picType = scanner.next();
-
-            if(picType.toLowerCase() == "url" || picType.toLowerCase() == "file")
-            {
-                validType = true;
-            }
-            else
-            {
-                System.out.println("Sorry, Invalid Picture Location");
-            }
-
-        }while(!validType);
-
-
-
-        //URL or File input
-        if(picType.toLowerCase() == "url")
-        {
-            System.out.print("What is the URL of your image?: ");
-            imageLocation = scanner.next();
-            URL url = new URL(imageLocation);
-
-            image = ImageIO.read(url);
-        }
-        else if(picType.toLowerCase() == "file")
-        {
-            System.out.print("What is the file location of your image?: ");
-            imageLocation = scanner.next();
-            File file = new File(imageLocation);
-            image = ImageIO.read(file);
-        }
-        else
-        {
-            throw new Exception("Invalid File Type");
-        }
-
-        //Converting image to byte array
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "jpg", baos);
-        byte[] bytes = baos.toByteArray();
-        baos.flush();
-        byte[] imageInByte = baos.toByteArray();
-        baos.close();
-
-        return imageInByte;
-    }
-
-    public void connectMessage(ObjectOutputStream out, String string)
-    {
-        BaseMessage newMessage = new RegMessage(name, name, channels);
-
-        try
-        {
-            out.writeObject(newMessage);
-            out.flush();
-        }
-        catch (IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-
 }
