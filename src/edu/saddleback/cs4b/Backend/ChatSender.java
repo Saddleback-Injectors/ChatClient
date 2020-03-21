@@ -121,7 +121,7 @@ public class ChatSender implements UIObserver {
     {
         try
         {
-            out.writeObject(new Packet(MessageType.TEXT.getType(), textMessage););
+            out.writeObject(new Packet(MessageType.TEXT.getType(), textMessage));
             out.flush();
         }
         catch (IOException ex)
