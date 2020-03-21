@@ -37,7 +37,7 @@ public class ChatSender implements UIObserver {
     }
     public ChatSender(ObjectOutputStream newOut, UISubject newSubject)
     {
-        this("User", "A", newOut, newSubject)
+        this("User", "A", newOut, newSubject);
     }
     public ChatSender(String newUsername, String newFocusedChannel, ObjectOutputStream newOut, UISubject newSubject)
     {
