@@ -20,10 +20,11 @@ public class Client
     private Socket socket;
     private Thread listenThread;
     private ObjectOutputStream out;
-    private ObjectInputStream  in;
+    private ObjectInputStream in;
     private ClientChatController controller;
     private String host;
     private int port;
+    private boolean invalidCredentials;
 
     private void createSocket()
     {
