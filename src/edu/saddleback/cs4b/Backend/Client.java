@@ -26,24 +26,6 @@ public class Client
     private int port;
     private boolean invalidCredentials;
 
-    private void createSocket()
-    {
-        try
-        {
-            socket = new Socket(host, port);
-            out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            out.flush();
-            in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-        }
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
-
-
-
 
 
     /* Constructors */
@@ -93,6 +75,27 @@ public class Client
     }//END public Client(String ipAddress, int portNum) {
 
 
+
+
+
+    private void createSocket()
+    {
+        try
+        {
+            socket = new Socket(host, port);
+            out = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            out.flush();
+            in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+        }
+        catch(UnknownHostException unknown)
+        {
+            invalidCredentials = true;
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
 
 
     public void sendMessages(String channel) throws Exception
