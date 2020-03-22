@@ -2,6 +2,7 @@ package edu.saddleback.cs4b.Backend.PubSub;
 
 import edu.saddleback.cs4b.Backend.Enums.ReceiveTypes;
 import edu.saddleback.cs4b.Backend.Messages.TextMessage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -67,5 +68,12 @@ class PubSubTests {
         assertEquals(0, subject.observerList.size());
     }
 
+    @Test
+    void nothingHappensWhenRemoveIsCalledOnNoObservers() {
+        assertDoesNotThrow(() -> {subject.removeObserver(observer);});
+    }
+
     
+
+
 }
