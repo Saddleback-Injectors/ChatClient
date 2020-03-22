@@ -3,7 +3,9 @@ package edu.saddleback.cs4b.Backend.PubSub;
 import edu.saddleback.cs4b.Backend.Enums.ReceiveTypes;
 import edu.saddleback.cs4b.Backend.Messages.TextMessage;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +21,7 @@ class PubSubTests {
     }
 
     private static class Subject implements ClientSubject {
-        List<ClientObserver> observerList;
+        List<ClientObserver> observerList = new ArrayList<>();
         @Override
         public void registerObserver(ClientObserver o) {
             observerList.add(o);
@@ -46,4 +48,11 @@ class PubSubTests {
         observer = new Observer();
         subject = new Subject();
     }
+
+    @Test
+    void aSubjectWithNoObserversWillReturnZero() {
+        assertEquals(0, subject.observerList.size());
+    }
+
+    
 }
