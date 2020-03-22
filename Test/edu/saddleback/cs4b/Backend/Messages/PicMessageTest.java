@@ -38,5 +38,13 @@ class PicMessageTest
         assertEquals(test, ms.getImg());
     }
 
+    @Test
+    @DisplayName("Test Channel for Pic-Msg")
+    void testChannelForDisMsg()
+    {
+        byte[] test = new byte[6];
 
+        PicMessage ms = new PicMessage("Test", test, "Channel");
+        assertEquals("Channel", ms.getChannel());
+    }
 }
