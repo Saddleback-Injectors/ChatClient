@@ -80,5 +80,12 @@ class PubSubTests {
         assertEquals("", ((TextMessage)((UIDisplayData)observer.getData()).getData()).getMessage());
     }
 
-
+    @Test
+    void observerWhoDoesNotSubscribeIsNotNotified() {
+        try {
+            ((TextMessage)((UIDisplayData)observer.getData()).getData()).getMessage();
+        } catch (NullPointerException e) {
+            assertTrue(true);
+        }
+    }
 }
