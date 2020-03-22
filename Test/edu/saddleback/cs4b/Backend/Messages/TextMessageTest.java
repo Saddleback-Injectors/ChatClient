@@ -37,4 +37,12 @@ class TextMessageTest
         assertEquals("User", ms.getChannel());
     }
 
+    @Test
+    @DisplayName("Test Message for Txt-Msg")
+    void testMessageForTxtMsg()
+    {
+        TextMessage ms = new TextMessage("Test", "User", "Hello");
+        assertEquals("Hello", ms.getMessage());
+    }
+
 }
