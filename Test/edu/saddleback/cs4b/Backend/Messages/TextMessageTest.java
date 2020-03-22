@@ -21,5 +21,12 @@ class TextMessageTest
         assertEquals("txt-Msg", ms.getType());
     }
 
+    @Test
+    @DisplayName("Test Sender for Txt-Msg")
+    void testSenderForDisMsg()
+    {
+        TextMessage ms = new TextMessage("Test", "User", "Hello");
+        assertEquals("Test", ms.getSender());
+    }
 
 }
