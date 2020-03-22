@@ -59,6 +59,13 @@ class PubSubTests {
         subject.registerObserver(observer);
         assertEquals(1, subject.observerList.size());
     }
-    
 
+    @Test
+    void aSubjectCanRemoveObserverFromTheList() {
+        subject.registerObserver(observer);
+        subject.removeObserver(observer);
+        assertEquals(0, subject.observerList.size());
+    }
+
+    
 }
