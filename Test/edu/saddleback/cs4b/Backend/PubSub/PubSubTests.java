@@ -2,6 +2,7 @@ package edu.saddleback.cs4b.Backend.PubSub;
 
 import edu.saddleback.cs4b.Backend.Enums.ReceiveTypes;
 import edu.saddleback.cs4b.Backend.Messages.TextMessage;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
 
@@ -37,5 +38,12 @@ class PubSubTests {
         }
     }
 
-    
+    Observer observer;
+    Subject subject;
+
+    @BeforeEach
+    void init() {
+        observer = new Observer();
+        subject = new Subject();
+    }
 }
