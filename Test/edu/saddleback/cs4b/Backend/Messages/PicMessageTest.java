@@ -10,7 +10,7 @@ class PicMessageTest
 
     @Test
     @DisplayName("Test Type for Pic-Msg")
-    void testTypeForDisMsg()
+    void testTypeForPicMsg()
     {
         byte[] test = new byte[6];
 
@@ -20,7 +20,7 @@ class PicMessageTest
 
     @Test
     @DisplayName("Test Sender for Pic-Msg")
-    void testSenderForDisMsg()
+    void testSenderForPicMsg()
     {
         byte[] test = new byte[6];
 
@@ -30,7 +30,7 @@ class PicMessageTest
 
     @Test
     @DisplayName("Test img for Pic-Msg")
-    void testImgForDisMsg()
+    void testImgForPicMsg()
     {
         byte[] test = new byte[6];
 
@@ -40,7 +40,7 @@ class PicMessageTest
 
     @Test
     @DisplayName("Test Channel for Pic-Msg")
-    void testChannelForDisMsg()
+    void testChannelForPicMsg()
     {
         byte[] test = new byte[6];
 

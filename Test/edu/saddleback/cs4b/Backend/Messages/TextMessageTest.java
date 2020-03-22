@@ -15,7 +15,7 @@ class TextMessageTest
 
     @Test
     @DisplayName("Test Type for txt-Msg")
-    void testTypeForDisMsg()
+    void testTypeForTxtMsg()
     {
         TextMessage ms = new TextMessage("Test", "User", "Hello");
         assertEquals("txt-Msg", ms.getType());
@@ -23,10 +23,18 @@ class TextMessageTest
 
     @Test
     @DisplayName("Test Sender for Txt-Msg")
-    void testSenderForDisMsg()
+    void testSenderForTxtMsg()
     {
         TextMessage ms = new TextMessage("Test", "User", "Hello");
         assertEquals("Test", ms.getSender());
+    }
+
+    @Test
+    @DisplayName("Test Channel for Txt-Msg")
+    void testChannelForTxtMsg()
+    {
+        TextMessage ms = new TextMessage("Test", "User", "Hello");
+        assertEquals("User", ms.getChannel());
     }
 
 }

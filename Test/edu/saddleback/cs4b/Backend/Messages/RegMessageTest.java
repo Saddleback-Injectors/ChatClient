@@ -14,7 +14,7 @@ class RegMessageTest
 {
     @Test
     @DisplayName("Test Type for Reg-Msg")
-    void testTypeForDisMsg()
+    void testTypeForRegMsg()
     {
         List<String> channels = new List<>() {
             @Override
@@ -139,7 +139,7 @@ class RegMessageTest
 
     @Test
     @DisplayName("Test Sender for Reg-Msg")
-    void testSenderForDisMsg()
+    void testSenderForRegMsg()
     {
         List<String> channels = new List<>() {
             @Override
@@ -264,7 +264,7 @@ class RegMessageTest
 
     @Test
     @DisplayName("Test userName for Reg-Msg")
-    void testUserNameForDisMsg()
+    void testUserNameForRegMsg()
     {
         List<String> channels = new List<>() {
         @Override
@@ -389,7 +389,7 @@ class RegMessageTest
 
     @Test
     @DisplayName("Test userName for Reg-Msg")
-    void testChannelsForDisMsg()
+    void testChannelsForRegMsg()
     {
         List<String> channels = new List<>() {
             @Override
