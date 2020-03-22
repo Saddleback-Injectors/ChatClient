@@ -54,5 +54,11 @@ class PubSubTests {
         assertEquals(0, subject.observerList.size());
     }
 
+    @Test
+    void aSubjectWithOneObserverWillReturnOne() {
+        subject.registerObserver(observer);
+        assertEquals(1, subject.observerList.size());
+    }
     
+
 }
