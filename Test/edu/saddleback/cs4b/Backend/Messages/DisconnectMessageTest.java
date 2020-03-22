@@ -9,9 +9,18 @@ class DisconnectMessageTest
 {
     @Test
     @DisplayName("Test Type is Dis-Msg")
-    void testTypeisDisMsg()
+    void testTypeForDisMsg()
     {
         DisconnectMessage ms = new DisconnectMessage("Test");
         assertEquals("Dis-Msg", ms.getType());
     }
+
+    @Test
+    @DisplayName("Test Sender is Dis-Msg")
+    void testSenderForDisMsg()
+    {
+        DisconnectMessage ms = new DisconnectMessage("Test");
+        assertEquals("Test", ms.getSender());
+    }
+
 }
