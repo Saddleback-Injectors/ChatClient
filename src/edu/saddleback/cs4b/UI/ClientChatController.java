@@ -99,7 +99,7 @@ public class ClientChatController implements UISubject, ClientObserver
     private StackPane stackPane;
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED THIS WILL REGISTER THE USER TO A CHANNEL BY INDICATING THAT THEY HAVE JOINED THE CHANNEL
      **/
     @Override
     public void registerObserver(UIObserver o)
@@ -108,7 +108,7 @@ public class ClientChatController implements UISubject, ClientObserver
     }
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED THIS WILL REMOVE THE OBSERVER FROM THE LIST OF OBSERVERS AND WILL NO LONGER GET NOTIFICATIONS
      **/
     @Override
     public void removeObserver(UIObserver o)
@@ -117,7 +117,7 @@ public class ClientChatController implements UISubject, ClientObserver
     }
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED THIS WILL NOTIFY OTHER OBSERVERS IN THAT CHANNEL TO ANY MESSAGES BEING SENT
      **/
     @Override
     public void notifyObservers()
@@ -129,7 +129,7 @@ public class ClientChatController implements UISubject, ClientObserver
     }
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED THIS WILL UPDATE THE MESSAGES BEING SENT
      **/
     @Override
     public void update(Receivable data)
@@ -194,9 +194,8 @@ public class ClientChatController implements UISubject, ClientObserver
         }
     }
 
-
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED THE ADD IMAGE BUTTON IS CLICKED AND ALLOWS THE USER TO SELECT A PICTURE TO DISPLAY
      **/
     @FXML
     public void onAddImageClicked(ActionEvent event)
@@ -233,6 +232,9 @@ public class ClientChatController implements UISubject, ClientObserver
 
     }
 
+    /**
+     * WHEN THIS METHOD IS CALLED THIS WILL INDICATE THAT THE PICTURE IS BEING ACCESSED FROM A PATH AND SAVED BY INPUTSTREAM
+     **/
     private void printLog(TextArea textArea, List<File> files) throws IOException
     {
         if (files == null || files.isEmpty())
@@ -252,6 +254,10 @@ public class ClientChatController implements UISubject, ClientObserver
             notifyObservers();
         }
     }
+    
+    /**
+     * WHEN THIS METHOD IS CALLED THIS WILL ADD A CHANNEL TO THE LIST VIEW OF CHANNELS
+     **/
     @FXML
     void onChannelClicked(Event e) {
         ListView<String> ch = (ListView<String>)e.getSource();
@@ -264,6 +270,9 @@ public class ClientChatController implements UISubject, ClientObserver
         }
     }
 
+    /**
+     * WHEN THIS METHOD IS CALLED THIS WILL SEND THE MESSAGE WHEN THE LABEL IS CLICKED
+     **/
     @FXML
     void onSendMessageClicked(Event e)
     {
@@ -278,7 +287,7 @@ public class ClientChatController implements UISubject, ClientObserver
     }
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED IF THE USER HITS ENTER INSTEAD OF SEND MEASSGE THE MESSAGE WILL STILL SEND
      **/
     @FXML
     void onEnterPressedInMessageField(KeyEvent e)
@@ -290,7 +299,7 @@ public class ClientChatController implements UISubject, ClientObserver
     }
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED THIS WILL UPDATE/SET THE USERNAME
      **/
     @FXML
     void setUserName(KeyEvent e)
@@ -304,7 +313,7 @@ public class ClientChatController implements UISubject, ClientObserver
 
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED THE USER WILL JOIN THE CHAT
      **/
     @FXML
     void onClickJoinChat()
@@ -352,6 +361,9 @@ public class ClientChatController implements UISubject, ClientObserver
         }
     }
 
+    /**
+     * WHEN THIS METHOD IS CALLED THIS WILL VALIDATE THE SERVER
+     **/
     private boolean validServer() {
         String server = serverField.getText();
         if (!server.equals("localhost")) {
@@ -361,6 +373,9 @@ public class ClientChatController implements UISubject, ClientObserver
         return true;
     }
 
+    /**
+     * WHEN THIS METHOD IS CALLED THIS WILL VALIDATE THE PORT
+     **/
     private boolean validPort() {
         int port;
         try {
@@ -377,14 +392,16 @@ public class ClientChatController implements UISubject, ClientObserver
         return true;
     }
 
-
+    /**
+     * WHEN THIS METHOD IS CALLED THIS WILL VALIDATE THE CONFIGURATION OF THE PROJECT
+     **/
     private boolean validConfiguration()
     {
         return !serverField.getText().equals("") && !portField.getText().equals("");
     }
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED WHEN THE USER WANTS TO EXIT THE CHAT PROGRAM THEY CAN CLICK ON LEAVE CHAT
      **/
     @FXML
     void onClickLeaveChat(Event e)
@@ -396,7 +413,7 @@ public class ClientChatController implements UISubject, ClientObserver
     }
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED THIS WILL ADD A CHANNEL TO THE LIST VIEW OF CHANNELS
      **/
     @FXML
     void onAddChannelClicked(Event e)
@@ -419,6 +436,9 @@ public class ClientChatController implements UISubject, ClientObserver
         channelName.clear();
     }
 
+    /**
+     * WHEN THIS METHOD IS CALLED THIS WILL ADD A CHANNEL TO THE LIST OF CHANNELS
+     **/
     private void addChannel()
     {
         focusedChannel = channelName.getText();
@@ -434,7 +454,7 @@ public class ClientChatController implements UISubject, ClientObserver
     }
 
     /**
-     * WHEN THIS METHOD IS CALLED
+     * WHEN THIS METHOD IS CALLED THIS WILL REMOVE A CHANNEL FROM THE LIST VIEW OF CHANNELS DYNAMICALLY
      **/
     @FXML
     void onRemoveChannelClicked(Event e)
