@@ -23,4 +23,19 @@ class DisconnectMessageTest
         assertEquals("Test", ms.getSender());
     }
 
+    @Test
+    @DisplayName("Test client for Dis-Msg")
+    void tesClientForDisMsg()
+    {
+        Runnable test = new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        };
+
+        DisconnectMessage ms = new DisconnectMessage("Test", test);
+        assertEquals(test, ms.getClient());
+    }
+
 }
