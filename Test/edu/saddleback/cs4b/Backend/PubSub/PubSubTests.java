@@ -73,7 +73,12 @@ class PubSubTests {
         assertDoesNotThrow(() -> {subject.removeObserver(observer);});
     }
 
-    
+    @Test
+    void observerNotifiedWhenSubjectPublishes() {
+        subject.registerObserver(observer);
+        subject.notifyObservers();
+        assertEquals("", ((TextMessage)((UIDisplayData)observer.getData()).getData()).getMessage());
+    }
 
 
 }
