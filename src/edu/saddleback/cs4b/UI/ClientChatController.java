@@ -154,30 +154,31 @@ public class ClientChatController implements UISubject, ClientObserver
             {
                 try {
                     PicMessage picMessage = (PicMessage) ((UIDisplayData) data).getData();
-                    byte[] picBytes = picMessage.getImg();
-                    String img = "Images/img.jpg";
-                    File pictureMessage = new File(img);
-                    FileOutputStream fout = new FileOutputStream(pictureMessage);
-                    fout.write(picBytes);
+                    if (picMessage.getChannel().equals(focusedChannel)) {
+                        byte[] picBytes = picMessage.getImg();
+                        String img = "Images/img.jpg";
+                        File pictureMessage = new File(img);
+                        FileOutputStream fout = new FileOutputStream(pictureMessage);
+                        fout.write(picBytes);
 
-                    Thread.sleep(700);
+                        Thread.sleep(700);
 
-                    // using image view call new scene
-                    Platform.runLater(()-> {
-                        try {
-                            Stage stage = new Stage();
-                            Image image = new Image(new FileInputStream(pictureMessage), 200, 200 ,true, false);
-                            ImageView imageView = new ImageView(image);
-                            Scene scene = new Scene(new Pane(imageView), 200, 200);
-                            stage.setScene(scene);
-                            stage.setX(0);
-                            stage.setY(0);
-                            stage.show();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    });
-
+                        // using image view call new scene
+                        Platform.runLater(() -> {
+                            try {
+                                Stage stage = new Stage();
+                                Image image = new Image(new FileInputStream(pictureMessage), 200, 200, true, false);
+                                ImageView imageView = new ImageView(image);
+                                Scene scene = new Scene(new Pane(imageView), 200, 200);
+                                stage.setScene(scene);
+                                stage.setX(0);
+                                stage.setY(0);
+                                stage.show();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
                     // delete
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -244,7 +245,7 @@ public class ClientChatController implements UISubject, ClientObserver
         }
         for (File file : files)
         {
-            String picSentMsg = username + "just uploaded a new image";
+            String picSentMsg = username + " just uploaded a new image";
             data = new UIFields(SendTypes.MESSAGE, new TextMessage(username, focusedChannel, picSentMsg));
             notifyObservers();
 
@@ -491,15 +492,22 @@ public class ClientChatController implements UISubject, ClientObserver
                     data = new UIFields(SendTypes.CHANNEL, new UpdateMessage(username,
                             MessageType.UPDATE.getType(), new ArrayList<>(channels)), focusedChannel);
                     notifyObservers();
-
-                    int i = stackPane.getChildren().indexOf(channelToViewer.get(channelName.getText()));
-                    stackPane.getChildren().remove(i);
-                    channelToViewer.remove(channelName.getText());
+                    setFocusedChannelAfterRemoval();
                 }
             }
         }
         channelName.clear();
     }
+
+    private void setFocusedChannelAfterRemoval() {
+        int i = stackPane.getChildren().indexOf(channelToViewer.get(channelName.getText()));
+        stackPane.getChildren().remove(i);
+        channelToViewer.remove(channelName.getText());
+        int size = stackPane.getChildren().size();
+        TextArea topArea = (TextArea)stackPane.getChildren().get(size - 1);
+
+    }
+
 
     /**
      * WHEN THIS METHOD IS CALLED THE '+ ADD IMAGE' LABEL WILL CHANGE COLOR WHEN THE MOUSE IS HOVERING OVER IT
