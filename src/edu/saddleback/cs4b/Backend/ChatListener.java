@@ -2,6 +2,7 @@
 package edu.saddleback.cs4b.Backend;
 
 import edu.saddleback.cs4b.Backend.Enums.ReceiveTypes;
+import edu.saddleback.cs4b.Backend.Messages.DisconnectMessage;
 import edu.saddleback.cs4b.Backend.Messages.PicMessage;
 import edu.saddleback.cs4b.Backend.Messages.TextMessage;
 import edu.saddleback.cs4b.Backend.PubSub.ClientObserver;
@@ -70,6 +71,8 @@ public class ChatListener implements ClientSubject, Runnable {
                     receivable = new UIDisplayData(ReceiveTypes.TEXT_AREA, data, (
                             (PicMessage) data).getChannel());
                     notifyObservers();
+                } else if (data instanceof DisconnectMessage) {
+                    listening = false;
                 }
             }
             catch (SocketException socketEx)
@@ -126,7 +129,4 @@ public class ChatListener implements ClientSubject, Runnable {
             System.out.println("Observer could not be found");
         }
     }
-
-
-
 }
