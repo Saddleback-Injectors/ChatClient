@@ -163,6 +163,8 @@ public class ClientChatController implements UISubject, ClientObserver
                     FileOutputStream fout = new FileOutputStream(pictureMessage);
                     fout.write(picBytes);
 
+                    Thread.sleep(700);
+
                     // using image view call new scene
                     Platform.runLater(()-> {
                         try {
@@ -182,6 +184,8 @@ public class ClientChatController implements UISubject, ClientObserver
                     // delete
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
                 }
             }
 
@@ -243,6 +247,10 @@ public class ClientChatController implements UISubject, ClientObserver
         }
         for (File file : files)
         {
+            String picSentMsg = username + "just uploaded a new image";
+            data = new UIFields(SendTypes.MESSAGE, new TextMessage(username, focusedChannel, picSentMsg));
+            notifyObservers();
+
             textArea.appendText(file.getAbsolutePath() + "\n");
 
             File picture = new File(file.getAbsolutePath());
