@@ -284,13 +284,17 @@ public class ClientChatController implements UISubject, ClientObserver
     @FXML
     void onSendMessageClicked(Event e)
     {
-        if (registrationSent)
+        if (registrationSent && !messageField.getText().equals(""))
         {
+            // todo bug: hold enter down, a bunch of newline feed cannot send
+            // unless you enter a non-newline at which only a blank space appears
             String textInField = messageField.getText();
             String[] message = textInField.split("\n");
-            data = new UIFields(SendTypes.MESSAGE, new TextMessage(username, focusedChannel, message[0]), focusedChannel);
-            notifyObservers();
-            messageField.clear();
+            if (message.length > 0) {
+                data = new UIFields(SendTypes.MESSAGE, new TextMessage(username, focusedChannel, message[0]), focusedChannel);
+                notifyObservers();
+                messageField.clear();
+            }
         }
     }
 
@@ -302,7 +306,14 @@ public class ClientChatController implements UISubject, ClientObserver
     {
         if (e.getCode() == KeyCode.ENTER)
         {
-            onSendMessageClicked(e);
+            if (!messageField.getText().equals("\n"))
+            {
+                onSendMessageClicked(e);
+            }
+            else
+            {
+                messageField.clear();
+            }
         }
     }
 
