@@ -505,9 +505,16 @@ public class ClientChatController implements UISubject, ClientObserver
         channelToViewer.remove(channelName.getText());
         int size = stackPane.getChildren().size();
         TextArea topArea = (TextArea)stackPane.getChildren().get(size - 1);
-
+        getAssociatedChannelWithArea(topArea);
     }
 
+    private void getAssociatedChannelWithArea(TextArea area) {
+        for (Map.Entry<String, TextArea> e : channelToViewer.entrySet()) {
+            if (e.getValue().equals(area)) {
+                focusedChannel = e.getKey();
+            }
+        }
+    }
 
     /**
      * WHEN THIS METHOD IS CALLED THE '+ ADD IMAGE' LABEL WILL CHANGE COLOR WHEN THE MOUSE IS HOVERING OVER IT
