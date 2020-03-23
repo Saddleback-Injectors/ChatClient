@@ -3,10 +3,7 @@ package edu.saddleback.cs4b.UI;
 import edu.saddleback.cs4b.Backend.Enums.MessageType;
 import edu.saddleback.cs4b.Backend.Enums.ReceiveTypes;
 import edu.saddleback.cs4b.Backend.Enums.SendTypes;
-import edu.saddleback.cs4b.Backend.Messages.PicMessage;
-import edu.saddleback.cs4b.Backend.Messages.RegMessage;
-import edu.saddleback.cs4b.Backend.Messages.TextMessage;
-import edu.saddleback.cs4b.Backend.Messages.UpdateMessage;
+import edu.saddleback.cs4b.Backend.Messages.*;
 import edu.saddleback.cs4b.Backend.PubSub.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -428,6 +425,8 @@ public class ClientChatController implements UISubject, ClientObserver
         if (e.getSource() == leaveChat) {
             Stage s = (Stage)leaveChat.getScene().getWindow();
             s.close();
+            data = new UIFields(SendTypes.LEAVE, new DisconnectMessage(username, null));
+            notifyObservers();
         }
     }
 

@@ -3,10 +3,7 @@ package edu.saddleback.cs4b.Backend;
 /*Imports*/
 import edu.saddleback.cs4b.Backend.Enums.MessageType;
 import edu.saddleback.cs4b.Backend.Enums.SendTypes;
-import edu.saddleback.cs4b.Backend.Messages.PicMessage;
-import edu.saddleback.cs4b.Backend.Messages.RegMessage;
-import edu.saddleback.cs4b.Backend.Messages.TextMessage;
-import edu.saddleback.cs4b.Backend.Messages.UpdateMessage;
+import edu.saddleback.cs4b.Backend.Messages.*;
 import edu.saddleback.cs4b.Backend.PubSub.Sendable;
 import edu.saddleback.cs4b.Backend.PubSub.UIFields;
 import edu.saddleback.cs4b.Backend.PubSub.UIObserver;
@@ -78,6 +75,19 @@ public class ChatSender implements UIObserver {
             UIFields message = (UIFields)data;
             UpdateMessage um = (UpdateMessage)message.getValue();
             updateChannels(um);
+        } else if (type.equals(SendTypes.LEAVE.getType()))
+        {
+            UIFields discon = (UIFields)data;
+            DisconnectMessage disMsg = (DisconnectMessage)discon.getValue();
+            try
+            {
+                out.writeObject(new Packet(MessageType.DISCONNECT.getType(), disMsg));
+                out.flush();
+            }
+            catch(IOException ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 
