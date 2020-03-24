@@ -25,15 +25,6 @@
             </font>
         </Label>
         <TextField fx:id="usernameField" layoutX="398.0" layoutY="33.0" onKeyReleased="#setUserName" promptText="Enter Username..." />
-        <TitledPane animated="false" layoutX="580.0" layoutY="443.0" prefHeight="148.0" prefWidth="208.0" text="Users">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <children>
-                        <ListView fx:id="userView" layoutX="-1.0" prefHeight="121.0" prefWidth="208.0" />
-                    </children>
-                </AnchorPane>
-            </content>
-        </TitledPane>
         <TextArea fx:id="messageField" layoutX="34.0" layoutY="486.0" onKeyReleased="#onEnterPressedInMessageField" prefHeight="104.0" prefWidth="366.0" promptText="Type your message here..." />
         <Label layoutX="34.0" layoutY="81.0" text="Server:" textFill="WHITE">
             <font>
@@ -107,5 +98,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <StackPane fx:id="picturePane" layoutX="577.0" layoutY="433.0" prefHeight="150.0" prefWidth="208.0" style="-fx-background-color: white;" />
     </children>
 </AnchorPane>
