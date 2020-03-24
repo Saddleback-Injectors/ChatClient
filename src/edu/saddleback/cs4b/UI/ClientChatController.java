@@ -8,7 +8,6 @@ import edu.saddleback.cs4b.Backend.PubSub.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -21,14 +20,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -45,7 +42,8 @@ public class ClientChatController implements UISubject, ClientObserver
     private String focusedChannel = "A";
     private String regErrorMsg = "";
 
-    private Map<String, TextArea> channelToViewer = new Hashtable<>();
+    private Map<String, TextArea> chatAreas = new Hashtable<>();
+    private Map<String, ImageView> imageMapping = new Hashtable<>();
 
     @FXML
     private ListView<String> channelView;
@@ -137,7 +135,7 @@ public class ClientChatController implements UISubject, ClientObserver
             {
                 TextMessage message = (TextMessage) ((UIDisplayData) data).getData();
                 //chatArea.appendText(message + "\n");
-                int i = stackPane.getChildren().indexOf(channelToViewer.get(message.getChannel()));
+                int i = stackPane.getChildren().indexOf(chatAreas.get(message.getChannel()));
                 if (i != -1) {
                     TextArea area = (TextArea) stackPane.getChildren().get(i);
                     area.appendText(message.getSender() + ": " + message.getMessage() + "\n");
@@ -269,7 +267,7 @@ public class ClientChatController implements UISubject, ClientObserver
         ListView<String> ch = (ListView<String>)e.getSource();
         if (ch.getSelectionModel().getSelectedItem() != null) {
             focusedChannel = ch.getSelectionModel().getSelectedItem();
-            int i = stackPane.getChildren().indexOf(channelToViewer.get(focusedChannel));
+            int i = stackPane.getChildren().indexOf(chatAreas.get(focusedChannel));
             TextArea focusedArea = (TextArea)stackPane.getChildren().get(i);
             stackPane.getChildren().remove(i);
             stackPane.getChildren().add(focusedArea);
@@ -358,7 +356,7 @@ public class ClientChatController implements UISubject, ClientObserver
                 data = new UIFields(SendTypes.JOIN, new RegMessage(username, username, new ArrayList<>(channels)), focusedChannel);
                 notifyObservers();
                 registrationSent = true;
-                int i = stackPane.getChildren().indexOf(channelToViewer.get(focusedChannel));
+                int i = stackPane.getChildren().indexOf(chatAreas.get(focusedChannel));
                 TextArea area = (TextArea)stackPane.getChildren().get(i);
                 stackPane.getChildren().remove(i);
                 stackPane.getChildren().add(area);
@@ -459,16 +457,29 @@ public class ClientChatController implements UISubject, ClientObserver
      **/
     private void addChannel()
     {
-        focusedChannel = channelName.getText();
-        TextArea txtArea = new TextArea();
-        stackPane.getChildren().add(txtArea);
-        channelToViewer.put(focusedChannel, txtArea);
+        generateNewTextArea();
+        generateNewImageViewer();
 
         channels.add(channelName.getText());
         channelView.getItems().add(channelName.getText());
         data = new UIFields(SendTypes.CHANNEL, new UpdateMessage(username,
                 MessageType.UPDATE.getType(), new ArrayList<>(channels)));
         notifyObservers();
+    }
+
+    private void generateNewTextArea()
+    {
+        focusedChannel = channelName.getText();
+        TextArea txtArea = new TextArea();
+        stackPane.getChildren().add(txtArea);
+        chatAreas.put(focusedChannel, txtArea);
+    }
+
+    private void generateNewImageViewer()
+    {
+        ImageView imgView = new ImageView();
+        picturePane.getChildren().add(imgView);
+        imageMapping.put(focusedChannel, imgView);
     }
 
     /**
@@ -499,16 +510,16 @@ public class ClientChatController implements UISubject, ClientObserver
     }
 
     private void setFocusedChannelAfterRemoval() {
-        int i = stackPane.getChildren().indexOf(channelToViewer.get(channelName.getText()));
+        int i = stackPane.getChildren().indexOf(chatAreas.get(channelName.getText()));
         stackPane.getChildren().remove(i);
-        channelToViewer.remove(channelName.getText());
+        chatAreas.remove(channelName.getText());
         int size = stackPane.getChildren().size();
         TextArea topArea = (TextArea)stackPane.getChildren().get(size - 1);
         getAssociatedChannelWithArea(topArea);
     }
 
     private void getAssociatedChannelWithArea(TextArea area) {
-        for (Map.Entry<String, TextArea> e : channelToViewer.entrySet()) {
+        for (Map.Entry<String, TextArea> e : chatAreas.entrySet()) {
             if (e.getValue().equals(area)) {
                 focusedChannel = e.getKey();
             }
