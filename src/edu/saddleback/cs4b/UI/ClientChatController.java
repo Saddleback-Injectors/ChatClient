@@ -20,6 +20,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -43,7 +45,7 @@ public class ClientChatController implements UISubject, ClientObserver
     private String regErrorMsg = "";
 
     private Map<String, TextArea> chatAreas = new Hashtable<>();
-    private Map<String, ImageView> imageMapping = new Hashtable<>();
+    private Map<String, StackPane> imageMapping = new Hashtable<>();
 
     @FXML
     private ListView<String> channelView;
@@ -164,14 +166,18 @@ public class ClientChatController implements UISubject, ClientObserver
                         // using image view call new scene
                         Platform.runLater(() -> {
                             try {
-                                Stage stage = new Stage();
+                                //Stage stage = new Stage();
                                 Image image = new Image(new FileInputStream(pictureMessage), 200, 200, true, false);
-                                ImageView imageView = new ImageView(image);
-                                Scene scene = new Scene(new Pane(imageView), 200, 200);
-                                stage.setScene(scene);
-                                stage.setX(0);
-                                stage.setY(0);
-                                stage.show();
+                                //ImageView imageView = new ImageView(image);
+                                int i = picturePane.getChildren().indexOf(imageMapping.get(picMessage.getChannel()));
+                                StackPane pane = (StackPane) picturePane.getChildren().get(i);
+                                ImageView imageView = (ImageView)pane.getChildren().get(0);
+                                imageView.setImage(image);
+//                                Scene scene = new Scene(new Pane(imageView), 200, 200);
+//                                stage.setScene(scene);
+//                                stage.setX(0);
+//                                stage.setY(0);
+//                                stage.show();
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             }
@@ -246,9 +252,6 @@ public class ClientChatController implements UISubject, ClientObserver
             String picSentMsg = username + " just uploaded a new image";
             data = new UIFields(SendTypes.MESSAGE, new TextMessage(username, focusedChannel, picSentMsg));
             notifyObservers();
-
-            textArea.appendText(file.getAbsolutePath() + "\n");
-
             File picture = new File(file.getAbsolutePath());
             int len = (int) picture.length();
             byte[] bytes = new byte[len];
@@ -271,6 +274,11 @@ public class ClientChatController implements UISubject, ClientObserver
             TextArea focusedArea = (TextArea)stackPane.getChildren().get(i);
             stackPane.getChildren().remove(i);
             stackPane.getChildren().add(focusedArea);
+
+            int j = picturePane.getChildren().indexOf(imageMapping.get(focusedChannel));
+            Pane pane = (StackPane)picturePane.getChildren().get(j);
+            picturePane.getChildren().remove(j);
+            picturePane.getChildren().add(pane);
         }
     }
 
@@ -478,8 +486,10 @@ public class ClientChatController implements UISubject, ClientObserver
     private void generateNewImageViewer()
     {
         ImageView imgView = new ImageView();
-        picturePane.getChildren().add(imgView);
-        imageMapping.put(focusedChannel, imgView);
+        StackPane pane = new StackPane(imgView);
+        pane.setStyle("-fx-background-color: white");
+        picturePane.getChildren().add(pane);
+        imageMapping.put(focusedChannel, pane);
     }
 
     /**
@@ -509,16 +519,33 @@ public class ClientChatController implements UISubject, ClientObserver
         channelName.clear();
     }
 
-    private void setFocusedChannelAfterRemoval() {
+    private void setFocusedChannelAfterRemoval()
+    {
         int i = stackPane.getChildren().indexOf(chatAreas.get(channelName.getText()));
         stackPane.getChildren().remove(i);
         chatAreas.remove(channelName.getText());
         int size = stackPane.getChildren().size();
         TextArea topArea = (TextArea)stackPane.getChildren().get(size - 1);
         getAssociatedChannelWithArea(topArea);
+        removeImageView();
     }
 
-    private void getAssociatedChannelWithArea(TextArea area) {
+    private void removeImageView()
+    {
+        int i = picturePane.getChildren().indexOf(imageMapping.get(channelName.getText()));
+        picturePane.getChildren().remove(i);
+        imageMapping.remove(channelName.getText());
+
+        int j = picturePane.getChildren().indexOf(imageMapping.get(focusedChannel));
+        if (j != -1) {
+            StackPane pane = (StackPane) picturePane.getChildren().get(j);
+            picturePane.getChildren().remove(pane);
+            picturePane.getChildren().add(pane);
+        }
+    }
+
+    private void getAssociatedChannelWithArea(TextArea area)
+    {
         for (Map.Entry<String, TextArea> e : chatAreas.entrySet()) {
             if (e.getValue().equals(area)) {
                 focusedChannel = e.getKey();
