@@ -41,7 +41,7 @@ public class ChatListener implements ClientSubject, Runnable {
         in = newIn;
         try
         {
-            receivable = new UIDisplayData(ReceiveTypes.HOST, InetAddress.getLocalHost().getHostName(), "");
+            receivable = new UIDisplayData(ReceiveTypes.HOST, InetAddress.getLocalHost().getHostAddress(), "");
             notifyObservers();
         } catch (UnknownHostException ex)
         {

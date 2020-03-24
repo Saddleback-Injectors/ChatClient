@@ -197,6 +197,7 @@ public class ClientChatController implements UISubject, ClientObserver
             // set the host value here which should be default at startup
             String hostName = (String)((UIDisplayData) data).getData();
             hostField.setText(hostName);
+            hostField.setDisable(true);
         }
     }
 
