@@ -51,9 +51,6 @@ public class ClientChatController implements UISubject, ClientObserver
     private ListView<String> channelView;
 
     @FXML
-    private ListView<String> userView;
-
-    @FXML
     private TextField hostField;
 
     @FXML
@@ -356,7 +353,6 @@ public class ClientChatController implements UISubject, ClientObserver
                 notifyObservers();
 
                 data = new UIFields(SendTypes.JOIN, new RegMessage(username, username, new ArrayList<>(channels)), focusedChannel);
-                userView.getItems().add(username);
                 notifyObservers();
                 registrationSent = true;
                 int i = stackPane.getChildren().indexOf(channelToViewer.get(focusedChannel));
