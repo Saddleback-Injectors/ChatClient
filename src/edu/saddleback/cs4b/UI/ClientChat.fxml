@@ -98,5 +98,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <StackPane fx:id="picturePane" layoutX="577.0" layoutY="433.0" prefHeight="150.0" prefWidth="208.0" style="-fx-background-color: white;" />
     </children>
 </AnchorPane>

@@ -92,6 +92,9 @@ public class ClientChatController implements UISubject, ClientObserver
     @FXML
     private StackPane stackPane;
 
+    @FXML
+    private StackPane picturePane;
+
     /**
      * WHEN THIS METHOD IS CALLED THIS WILL REGISTER THE USER TO A CHANNEL BY INDICATING THAT THEY HAVE JOINED THE CHANNEL
      **/
