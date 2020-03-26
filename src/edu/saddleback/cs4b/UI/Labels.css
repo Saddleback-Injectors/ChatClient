@@ -1,0 +1,35 @@
+#joinChat
+{
+    -fx-background-color: GREEN;
+    -fx-background-radius: 10;
+}
+
+#leaveChat
+{
+    -fx-background-color: #E84A5F;
+    -fx-background-radius: 10;
+}
+
+#addChannel
+{
+    -fx-background-color: GREEN;
+    -fx-background-radius: 10;
+}
+
+#removeChannel
+{
+    -fx-background-color: #E84A5F;
+    -fx-background-radius: 10;
+}
+
+#sendMessage
+{
+    -fx-background-color: GREEN;
+    -fx-background-radius: 10;
+}
+
+#addImage
+{
+    -fx-background-color: #E84A5F;
+    -fx-background-radius: 10;
+}

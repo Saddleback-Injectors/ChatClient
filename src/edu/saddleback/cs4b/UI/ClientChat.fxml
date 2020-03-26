@@ -1,8 +1,103 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="edu.saddleback.cs4b.UI.ClientChatController"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #2A363B#2A363B;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.saddleback.cs4b.UI.ClientChatController">
+    <children>
+        <Label layoutX="34.0" layoutY="35.0" text="Host IP:" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="hostField" editable="false" layoutX="107.0" layoutY="33.0" promptText="Enter Host IP Address..." />
+        <Label layoutX="297.0" layoutY="35.0" text="Username:" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="usernameField" layoutX="398.0" layoutY="33.0" onKeyReleased="#setUserName" promptText="Enter Username..." />
+        <TextArea fx:id="messageField" layoutX="34.0" layoutY="486.0" onKeyReleased="#onEnterPressedInMessageField" prefHeight="104.0" prefWidth="366.0" promptText="Type your message here..." />
+        <Label layoutX="34.0" layoutY="81.0" text="Server:" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <Label layoutX="298.0" layoutY="81.0" text="Port #:" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="portField" layoutX="398.0" layoutY="79.0" promptText="Enter Port #..." />
+        <TextField fx:id="serverField" layoutX="107.0" layoutY="79.0" promptText="Enter Server Name..." />
+        <TitledPane animated="false" layoutX="577.0" layoutY="276.0" prefHeight="148.0" prefWidth="208.0" text="Channels">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <ListView fx:id="channelView" layoutX="-4.0" onMouseClicked="#onChannelClicked" prefHeight="121.0" prefWidth="214.0" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <TextField fx:id="channelName" layoutX="574.0" layoutY="132.0" prefHeight="27.0" prefWidth="208.0" promptText="Enter Channel Name..." />
+        <Label id="addChannel" fx:id="addChannel" alignment="TOP_CENTER" layoutX="574.0" layoutY="178.0" onKeyPressed="#onEnterPressedInMessageField" onMouseClicked="#onAddChannelClicked" onMouseEntered="#highlightAddChannel" onMouseExited="#resetAddChannel" prefHeight="30.0" prefWidth="208.0" stylesheets="@Labels.css" text="Add Channel" textFill="WHITE">
+            <font>
+                <Font size="25.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Label>
+        <Label id="removeChannel" fx:id="removeChannel" alignment="TOP_CENTER" layoutX="574.0" layoutY="221.0" onMouseClicked="#onRemoveChannelClicked" onMouseEntered="#highlightRemoveChannel" onMouseExited="#resetRemoveChannel" prefHeight="30.0" prefWidth="208.0" stylesheets="@Labels.css" text="Remove Channel" textFill="WHITE">
+            <font>
+                <Font size="25.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Label>
+        <Label id="sendMessage" fx:id="sendMessage" alignment="TOP_CENTER" layoutX="413.0" layoutY="556.0" onMouseClicked="#onSendMessageClicked" onMouseEntered="#highlightSendMessage" onMouseExited="#resetSendMessage" prefHeight="30.0" prefWidth="161.0" stylesheets="@Labels.css" text="Send Message" textFill="WHITE">
+            <font>
+                <Font size="25.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Label>
+        <Label id="joinChat" fx:id="joinChat" alignment="TOP_CENTER" layoutX="604.0" layoutY="32.0" onMouseClicked="#onClickJoinChat" onMouseEntered="#highlightJoinChat" onMouseExited="#resetJoinChat" prefHeight="30.0" prefWidth="148.0" stylesheets="@Labels.css" text="Join Chat" textFill="WHITE">
+            <font>
+                <Font size="25.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Label>
+        <Label id="leaveChat" fx:id="leaveChat" alignment="TOP_CENTER" layoutX="607.0" layoutY="78.0" onMouseClicked="#onClickLeaveChat" onMouseEntered="#highlightLeaveChat" onMouseExited="#resetLeaveChat" prefHeight="30.0" prefWidth="148.0" stylesheets="@Labels.css" text="Leave Chat" textFill="WHITE">
+            <font>
+                <Font size="25.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Label>
+      <StackPane fx:id="stackPane" layoutX="36.0" layoutY="124.0" prefHeight="352.0" prefWidth="525.0">
+         <children>
+            <TextArea fx:id="chatArea" prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </StackPane>
+      <Button id="addImage" fx:id="addImageButton" layoutX="413.0" layoutY="508.0" mnemonicParsing="false" onAction="#onAddImageClicked" onMouseEntered="#highlightAddImage" onMouseExited="#resetAddImage" prefHeight="30.0" prefWidth="104.0" stylesheets="@Labels.css" text="+ Add Image" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <StackPane fx:id="picturePane" layoutX="577.0" layoutY="433.0" prefHeight="150.0" prefWidth="208.0" style="-fx-background-color: white;" />
+    </children>
+</AnchorPane>
