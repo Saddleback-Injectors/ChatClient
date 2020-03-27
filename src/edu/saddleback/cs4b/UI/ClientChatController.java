@@ -154,7 +154,7 @@ public class ClientChatController implements UISubject, ClientObserver
             {
                 try {
                     PicMessage picMessage = (PicMessage) ((UIDisplayData) data).getData();
-                    if (picMessage.getChannel().equals(focusedChannel)) {
+                    //if (picMessage.getChannel().equals(focusedChannel)) {
                         byte[] picBytes = picMessage.getImg();
                         String img = "Images/img.jpg";
                         File pictureMessage = new File(img);
@@ -182,7 +182,7 @@ public class ClientChatController implements UISubject, ClientObserver
                                 e.printStackTrace();
                             }
                         });
-                    }
+                    //}
                     // delete
                 } catch (IOException e) {
                     e.printStackTrace();
