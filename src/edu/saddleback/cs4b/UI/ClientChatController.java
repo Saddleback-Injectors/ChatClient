@@ -452,7 +452,6 @@ public class ClientChatController implements UISubject, ClientObserver
             }
             else
             {
-
                 if (!channelView.getItems().contains(channelName.getText())) {
                     addChannel();
                 }
@@ -471,6 +470,7 @@ public class ClientChatController implements UISubject, ClientObserver
 
         channels.add(channelName.getText());
         channelView.getItems().add(channelName.getText());
+        // todo possible bug since registration message also sent with this
         data = new UIFields(SendTypes.CHANNEL, new UpdateMessage(username,
                 MessageType.UPDATE.getType(), new ArrayList<>(channels)));
         notifyObservers();
@@ -479,6 +479,8 @@ public class ClientChatController implements UISubject, ClientObserver
     private void generateNewTextArea()
     {
         focusedChannel = channelName.getText();
+        data = new UIFields(SendTypes.CHANNEL, new RequestMessage(username,
+                RequestType.HISTORY, focusedChannel));
         TextArea txtArea = new TextArea();
         stackPane.getChildren().add(txtArea);
         chatAreas.put(focusedChannel, txtArea);
