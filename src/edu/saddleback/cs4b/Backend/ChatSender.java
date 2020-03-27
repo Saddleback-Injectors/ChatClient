@@ -89,6 +89,20 @@ public class ChatSender implements UIObserver {
                 ex.printStackTrace();
             }
         }
+        else if (type.equals(SendTypes.HISTORY_REQUEST.getType()))
+        {
+            UIFields req = (UIFields)data;
+            RequestMessage historyRequest = (RequestMessage)req.getValue();
+            try
+            {
+                out.writeObject(new Packet(MessageType.HISTORY_REQUEST.getType(), historyRequest));
+                out.flush();
+            }
+            catch(IOException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
     }
 
     // repeat code will be later refactored to be more concise

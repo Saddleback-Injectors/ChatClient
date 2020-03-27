@@ -3,6 +3,7 @@ package edu.saddleback.cs4b.UI;
 import edu.saddleback.cs4b.Backend.Enums.MessageType;
 import edu.saddleback.cs4b.Backend.Enums.ReceiveTypes;
 import edu.saddleback.cs4b.Backend.Enums.SendTypes;
+import edu.saddleback.cs4b.Backend.History;
 import edu.saddleback.cs4b.Backend.Messages.*;
 import edu.saddleback.cs4b.Backend.PubSub.*;
 import javafx.application.Platform;
@@ -150,6 +151,11 @@ public class ClientChatController implements UISubject, ClientObserver
                     });
                 }
             }
+            else if (((UIDisplayData) data).getData() instanceof RequestMessage)
+            {
+                RequestMessage requestMessage = (RequestMessage)((UIDisplayData) data).getData();
+                downloadHistory(requestMessage);
+            }
             else if(((UIDisplayData) data).getData() instanceof PicMessage)
             {
                 try {
@@ -199,6 +205,21 @@ public class ClientChatController implements UISubject, ClientObserver
             hostField.setText(hostName);
             hostField.setDisable(true);
         }
+    }
+
+    private void downloadHistory(RequestMessage requestMessage) {
+        String channel = requestMessage.getChannel();
+        List<String> history = ((History)requestMessage.getRequestable()).getTextLog();
+        //byte[] img = ((History)requestMessage.getRequestable()).getFileData();
+
+        // add image support later
+
+        int i = stackPane.getChildren().indexOf(chatAreas.get(channel));
+        TextArea area = (TextArea) stackPane.getChildren().get(i);
+        for (String msg : history) {
+            area.appendText(msg + "\n");
+        }
+        //area.appendText(message.getSender() + ": " + message.getMessage() + "\n");
     }
 
     /**
@@ -479,8 +500,9 @@ public class ClientChatController implements UISubject, ClientObserver
     private void generateNewTextArea()
     {
         focusedChannel = channelName.getText();
-        data = new UIFields(SendTypes.CHANNEL, new RequestMessage(username,
+        data = new UIFields(SendTypes.HISTORY_REQUEST, new RequestMessage(username,
                 RequestType.HISTORY, focusedChannel));
+        notifyObservers();
         TextArea txtArea = new TextArea();
         stackPane.getChildren().add(txtArea);
         chatAreas.put(focusedChannel, txtArea);

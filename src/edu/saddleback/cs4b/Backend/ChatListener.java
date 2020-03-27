@@ -4,6 +4,7 @@ package edu.saddleback.cs4b.Backend;
 import edu.saddleback.cs4b.Backend.Enums.ReceiveTypes;
 import edu.saddleback.cs4b.Backend.Messages.DisconnectMessage;
 import edu.saddleback.cs4b.Backend.Messages.PicMessage;
+import edu.saddleback.cs4b.Backend.Messages.RequestMessage;
 import edu.saddleback.cs4b.Backend.Messages.TextMessage;
 import edu.saddleback.cs4b.Backend.PubSub.ClientObserver;
 import edu.saddleback.cs4b.Backend.PubSub.ClientSubject;
@@ -73,6 +74,10 @@ public class ChatListener implements ClientSubject, Runnable {
                     notifyObservers();
                 } else if (data instanceof DisconnectMessage) {
                     listening = false;
+                } else if (data instanceof RequestMessage) {
+                    receivable = new UIDisplayData(ReceiveTypes.TEXT_AREA, data,
+                            ((RequestMessage) data).getChannel());
+                    notifyObservers();
                 }
             }
             catch (SocketException socketEx)
