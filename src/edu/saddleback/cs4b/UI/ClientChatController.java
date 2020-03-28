@@ -141,7 +141,7 @@ public class ClientChatController implements UISubject, ClientObserver
                 int i = stackPane.getChildren().indexOf(chatAreas.get(message.getChannel()));
                 if (i != -1) {
                     TextArea area = (TextArea) stackPane.getChildren().get(i);
-                    area.appendText(message.getSender() + ": " + message.getMessage() + "\n");
+                    area.appendText(message.getMessage() + "\n");
                 } else {
                     Platform.runLater(()-> {
                         stackPane.getChildren().add(new TextArea(message.getMessage()));
@@ -160,36 +160,7 @@ public class ClientChatController implements UISubject, ClientObserver
             {
                 try {
                     PicMessage picMessage = (PicMessage) ((UIDisplayData) data).getData();
-                    //if (picMessage.getChannel().equals(focusedChannel)) {
-                        byte[] picBytes = picMessage.getImg();
-                        String img = "Images/img.jpg";
-                        File pictureMessage = new File(img);
-                        FileOutputStream fout = new FileOutputStream(pictureMessage);
-                        fout.write(picBytes);
-
-                        Thread.sleep(700);
-
-                        // using image view call new scene
-                        Platform.runLater(() -> {
-                            try {
-                                //Stage stage = new Stage();
-                                Image image = new Image(new FileInputStream(pictureMessage), 200, 200, true, false);
-                                //ImageView imageView = new ImageView(image);
-                                int i = picturePane.getChildren().indexOf(imageMapping.get(picMessage.getChannel()));
-                                StackPane pane = (StackPane) picturePane.getChildren().get(i);
-                                ImageView imageView = (ImageView)pane.getChildren().get(0);
-                                imageView.setImage(image);
-//                                Scene scene = new Scene(new Pane(imageView), 200, 200);
-//                                stage.setScene(scene);
-//                                stage.setX(0);
-//                                stage.setY(0);
-//                                stage.show();
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    //}
-                    // delete
+                    placeImageToScreen(picMessage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException ie) {
@@ -207,19 +178,49 @@ public class ClientChatController implements UISubject, ClientObserver
         }
     }
 
+    private void placeImageToScreen(PicMessage picMessage) throws IOException, InterruptedException {
+        byte[] picBytes = picMessage.getImg();
+        String img = "Images/img.jpg";
+        File pictureMessage = new File(img);
+        FileOutputStream fout = new FileOutputStream(pictureMessage);
+        fout.write(picBytes);
+
+        Thread.sleep(700);
+
+        // using image view call new scene
+        Platform.runLater(() -> {
+            try {
+                Image image = new Image(new FileInputStream(pictureMessage), 200, 200, true, false);
+                int i = picturePane.getChildren().indexOf(imageMapping.get(picMessage.getChannel()));
+                StackPane pane = (StackPane) picturePane.getChildren().get(i);
+                ImageView imageView = (ImageView)pane.getChildren().get(0);
+                imageView.setImage(image);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     private void downloadHistory(RequestMessage requestMessage) {
         String channel = requestMessage.getChannel();
         List<String> history = ((History)requestMessage.getRequestable()).getTextLog();
-        //byte[] img = ((History)requestMessage.getRequestable()).getFileData();
-
-        // add image support later
+        byte[] img = ((History)requestMessage.getRequestable()).getFileData();
+        if (img != null) {
+            try {
+                placeImageToScreen(new PicMessage("", img, channel));
+            } catch (IOException io) {
+                io.printStackTrace();
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
+        }
 
         int i = stackPane.getChildren().indexOf(chatAreas.get(channel));
         TextArea area = (TextArea) stackPane.getChildren().get(i);
         for (String msg : history) {
             area.appendText(msg + "\n");
         }
-        //area.appendText(message.getSender() + ": " + message.getMessage() + "\n");
+        area.appendText("\n------------------ NEW Messages ------------------\n");
     }
 
     /**
@@ -318,7 +319,7 @@ public class ClientChatController implements UISubject, ClientObserver
             String textInField = messageField.getText();
             String[] message = textInField.split("\n");
             if (message.length > 0) {
-                data = new UIFields(SendTypes.MESSAGE, new TextMessage(username, focusedChannel, message[0]), focusedChannel);
+                data = new UIFields(SendTypes.MESSAGE, new TextMessage(username, focusedChannel, username + ": " + message[0]), focusedChannel);
                 notifyObservers();
                 messageField.clear();
             }
