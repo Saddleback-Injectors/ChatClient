@@ -2,6 +2,7 @@ package edu.saddleback.cs4b.Backend;
 
 import edu.saddleback.cs4b.Backend.Interfaces.Requestable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,17 +16,17 @@ import java.util.List;
  *
  *     todo come back and address if a History object should be cloneable
  */
-public class History implements Requestable {
+public class History implements Requestable, Cloneable {
     private List<String> textLog;
     private byte[] fileData;
 
-    private History(ArrayList<String> textLog, byte[] fileData) {
+    private History(List<String> textLog, byte[] fileData) {
         this.textLog = textLog;
         this.fileData = fileData;
     }
 
     public History() {
-       this (new ArrayList<>(), null);
+        this (new ArrayList<>(), null);
     }
 
     public void logText(String text) {
@@ -52,4 +53,20 @@ public class History implements Requestable {
         return Arrays.copyOf(fileData, fileData.length);
     }
 
+    @Override
+    protected Object clone() {
+        List<String> copyText = new ArrayList<>();
+        for (String s : textLog) {
+            copyText.add(s);
+        }
+
+        byte[] copyImage = null;
+        if (fileData != null) {
+            copyImage = new byte[fileData.length];
+            for (int i = 0; i < fileData.length; ++i) {
+                copyImage[i] = fileData[i];
+            }
+        }
+        return new History(copyText, copyImage);
+    }
 }
