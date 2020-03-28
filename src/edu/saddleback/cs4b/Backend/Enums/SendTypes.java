@@ -7,7 +7,8 @@ public enum SendTypes {
     CHANNEL("Channel"),
     MESSAGE("Message"),
     JOIN("join"),
-    LEAVE("leave");
+    LEAVE("leave"),
+    HISTORY_REQUEST("history request");
 
     private String type;
     private SendTypes(String type) {

@@ -5,7 +5,8 @@ public enum MessageType {
     REGISTRATION("Registration"),
     IMAGE("Image"),
     UPDATE("Update"),
-    DISCONNECT("Disconnection");
+    DISCONNECT("Disconnection"),
+    HISTORY_REQUEST("History Request");
 
     private String type;
     private MessageType(String type) {
