@@ -228,6 +228,7 @@ public class ClientChatController implements UISubject, ClientObserver
     @FXML
     public void onAddImageClicked(ActionEvent event)
     {
+        if (channels.size() == 0) return;
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 
         FileChooser fileChooser = new FileChooser();
@@ -310,7 +311,7 @@ public class ClientChatController implements UISubject, ClientObserver
     @FXML
     void onSendMessageClicked(Event e)
     {
-        if (registrationSent && !messageField.getText().equals(""))
+        if (registrationSent && !messageField.getText().equals("") && channels.size() > 0)
         {
             // todo bug: hold enter down, a bunch of newline feed cannot send
             // unless you enter a non-newline at which only a blank space appears
@@ -321,6 +322,8 @@ public class ClientChatController implements UISubject, ClientObserver
                 notifyObservers();
                 messageField.clear();
             }
+        } else if (channels.size() == 0) {
+            messageField.clear();
         }
     }
 
@@ -363,8 +366,8 @@ public class ClientChatController implements UISubject, ClientObserver
     @FXML
     void onClickJoinChat()
     {
-        if (!registrationSent ) {
-            if (!usernameField.getText().equals("") && validConfiguration() && channels.size() > 0 &&
+        if (!registrationSent) {
+            if (!usernameField.getText().equals("") && validConfiguration() &&
                     validPort() && validServer()) {
 
                 if (username.equals("")) {
@@ -386,10 +389,17 @@ public class ClientChatController implements UISubject, ClientObserver
                 data = new UIFields(SendTypes.JOIN, new RegMessage(username, username, new ArrayList<>(channels)), focusedChannel);
                 notifyObservers();
                 registrationSent = true;
+                // request history for all added channels
+                //historyOfRegisteredChannels();
+
                 int i = stackPane.getChildren().indexOf(chatAreas.get(focusedChannel));
-                TextArea area = (TextArea)stackPane.getChildren().get(i);
-                stackPane.getChildren().remove(i);
-                stackPane.getChildren().add(area);
+
+                // todo for now you cannot join without a channel
+                if (i > -1) {
+                    TextArea area = (TextArea) stackPane.getChildren().get(i);
+                    stackPane.getChildren().remove(i);
+                    stackPane.getChildren().add(area);
+                }
                 portField.setDisable(true);
                 usernameField.setDisable(true);
                 serverField.setDisable(true);
@@ -404,6 +414,21 @@ public class ClientChatController implements UISubject, ClientObserver
             }
         }
     }
+
+    /**
+     * todo causing massive bug!! get back to this for now you cannot add channel
+     *  until you join
+     */
+//    private void historyOfRegisteredChannels() {
+//        for (String channel : channels) {
+//            TextArea txtArea = new TextArea();
+//            stackPane.getChildren().add(txtArea);
+//            chatAreas.put(channel, txtArea);
+//            data = new UIFields(SendTypes.HISTORY_REQUEST, new RequestMessage(username,
+//                    RequestType.HISTORY, channel));
+//            notifyObservers();
+//        }
+//    }
 
     /**
      * WHEN THIS METHOD IS CALLED THIS WILL VALIDATE THE SERVER
@@ -464,7 +489,8 @@ public class ClientChatController implements UISubject, ClientObserver
     @FXML
     void onAddChannelClicked(Event e)
     {
-        if (!channelName.getText().equals(""))
+        // can only add channels once registered
+        if (!channelName.getText().equals("") && registrationSent)
         {
             //channels.add(channelName.getText());
             if(channelView.getItems().isEmpty())
@@ -491,7 +517,6 @@ public class ClientChatController implements UISubject, ClientObserver
 
         channels.add(channelName.getText());
         channelView.getItems().add(channelName.getText());
-        // todo possible bug since registration message also sent with this
         data = new UIFields(SendTypes.CHANNEL, new UpdateMessage(username,
                 MessageType.UPDATE.getType(), new ArrayList<>(channels)));
         notifyObservers();
@@ -500,12 +525,12 @@ public class ClientChatController implements UISubject, ClientObserver
     private void generateNewTextArea()
     {
         focusedChannel = channelName.getText();
-        data = new UIFields(SendTypes.HISTORY_REQUEST, new RequestMessage(username,
-                RequestType.HISTORY, focusedChannel));
-        notifyObservers();
         TextArea txtArea = new TextArea();
         stackPane.getChildren().add(txtArea);
         chatAreas.put(focusedChannel, txtArea);
+        data = new UIFields(SendTypes.HISTORY_REQUEST, new RequestMessage(username,
+                RequestType.HISTORY, focusedChannel));
+        notifyObservers();
     }
 
     private void generateNewImageViewer()
