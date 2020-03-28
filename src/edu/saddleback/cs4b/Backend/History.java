@@ -50,6 +50,9 @@ public class History implements Requestable, Cloneable {
      * @return copy of the data being stored
      */
     public byte[] getFileData() {
+        if (fileData == null) {
+            return null;
+        }
         return Arrays.copyOf(fileData, fileData.length);
     }
 
